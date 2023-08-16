@@ -4,7 +4,13 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDrag } from "react-dnd";
 import { useState } from "react";
 
-function Todo({ task, deleteFn }: { task: string; deleteFn: Function }) {
+function Todo({
+    task,
+    deleteFn,
+}: {
+    task: string;
+    deleteFn(item: string): void;
+}) {
     const [, drag] = useDrag(() => ({
         type: "task",
         item: {
@@ -29,14 +35,14 @@ function List({ title }: { title: string }) {
     const [listItems, setListItems] = useState<string[]>([]);
     const [, drop] = useDrop({
         accept: "task",
-        drop: (item: { task: string; deleteFn(item: any): void }) => {
+        drop: (item: { task: string; deleteFn(item: string): void }) => {
             setListItems([...listItems, item.task]);
             item.deleteFn(item.task);
         },
     });
     const [newItem, setAddNewItem] = useState("");
 
-    function deleteMeFromHome(item) {
+    function deleteMeFromHome(item: string) {
         setListItems(
             listItems.filter((element) =>
                 element !== item ? element : console.log(listItems)
