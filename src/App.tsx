@@ -4,11 +4,12 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDrag } from "react-dnd";
 import { useState } from "react";
 
-function Todo({ task }: { task: string }) {
+function Todo({ task, deleteFn }: { task: string; deleteFn: Function }) {
     const [, drag] = useDrag(() => ({
         type: "task",
         item: {
             task: task,
+            deleteFn: deleteFn,
         },
     }));
 
@@ -28,11 +29,21 @@ function List({ title }: { title: string }) {
     const [listItems, setListItems] = useState<string[]>([]);
     const [, drop] = useDrop({
         accept: "task",
-        drop: (item: { task: string }) => {
+        drop: (item: { task: string; deleteFn(item: any): void }) => {
             setListItems([...listItems, item.task]);
+            item.deleteFn(item.task);
         },
     });
     const [newItem, setAddNewItem] = useState("");
+
+    function deleteMeFromHome(item) {
+        setListItems(
+            listItems.filter((element) =>
+                element !== item ? element : console.log(listItems)
+            )
+        );
+    }
+
     return (
         <>
             <div
@@ -46,7 +57,7 @@ function List({ title }: { title: string }) {
             >
                 <h2>{title}</h2>
                 {listItems.map((task) => (
-                    <Todo task={task} />
+                    <Todo task={task} deleteFn={deleteMeFromHome} />
                 ))}
                 <div
                     style={{
@@ -95,6 +106,12 @@ function App() {
                     <List title={"To do"} />
                     <List title={"Completed"} />
                 </div>
+                <a
+                    style={{ paddingTop: "50px" }}
+                    href="https://github.com/JennaHuff/DragAndDrop-Test"
+                >
+                    https://github.com/JennaHuff/DragAndDrop-Test
+                </a>
             </div>
         </DndProvider>
     );
