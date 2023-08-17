@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+
+.list hr {
+    border: 1px solid black;
+    width: 60%;
+}
 .list hr:last-child {
     display: none;
 }
@@ -7,11 +14,19 @@
 
     user-select: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 28px;
+    word-wrap: anywhere;
+    font-family: Permanent Marker;
+    /* font-family: Shadows Into Light; */
 }
 
+.list > h2 {
+    word-wrap: anywhere;
+    font-size: 36px;
+}
 .list {
-    word-wrap: break-word;
+    padding-inline: 15px;
+
     max-width: 30vw;
     display: flex;
     color: black;
@@ -21,7 +36,8 @@
     align-items: center;
     background-color: #ffff99;
     box-shadow: 20px 20px black;
-    border-radius: 15px;
+    border-radius: 5px;
+    /* border-radius: 15px; */
     padding-bottom: 40px;
 }
 

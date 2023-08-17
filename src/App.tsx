@@ -108,12 +108,7 @@ function App() {
                                             id={task.id}
                                             task={task.name}
                                         />
-                                        <hr
-                                            style={{
-                                                border: "2px solid black",
-                                                width: "60%",
-                                            }}
-                                        />
+                                        <hr />
                                     </>
                                 ))}
                         </List>
