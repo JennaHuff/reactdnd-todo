@@ -5,11 +5,6 @@ import { useDrag } from "react-dnd";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const lists = {
-    todo: { listName: "todo", listTitle: "To do" },
-    completed: { listName: "completed", listTitle: "Completed" },
-};
-
 function Todo({ task, id }: { task: string; id: string }) {
     const [, drag] = useDrag(() => ({
         type: "task",
@@ -40,22 +35,16 @@ function List({
     setTasks,
     children,
 }: {
-    thisList: {
-        listName: string;
-        listTitle: string;
-    };
+    thisList: string;
     tasks: {
-        list: { listName: string; listTitle: string };
+        list: string;
         name: string;
         id: string;
     }[];
     setTasks: React.Dispatch<
         React.SetStateAction<
             {
-                list: {
-                    listName: string;
-                    listTitle: string;
-                };
+                list: string;
                 name: string;
                 id: string;
             }[]
@@ -87,7 +76,7 @@ function List({
                 }}
                 ref={drop}
             >
-                <h2>{thisList.listTitle}</h2>
+                <h2>{thisList}</h2>
                 <div
                     style={{
                         backgroundColor: "lightgray",
@@ -127,15 +116,16 @@ function List({
     );
 }
 
+interface ITask {
+    list: string;
+    name: string;
+    id: string;
+}
 function App() {
-    const [tasks, setTasks] = useState([
-        { list: lists.todo, name: "Eat green eggs", id: uuidv4() },
-        { list: lists.todo, name: "Eat red eggs", id: uuidv4() },
-        { list: lists.todo, name: "Eat blue eggs", id: uuidv4() },
-        { list: lists.completed, name: "Eat ham", id: uuidv4() },
-        { list: lists.completed, name: "Eat ham", id: uuidv4() },
-        { list: lists.completed, name: "Eat him", id: uuidv4() },
-    ]);
+    const [lists, setLists] = useState(["To do", "Completed"]);
+    const [newList, setNewList] = useState("");
+
+    const [tasks, setTasks] = useState<ITask[]>([]);
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -148,46 +138,40 @@ function App() {
                 }}
             >
                 <h1>To-do List</h1>
+                <input
+                    type="text"
+                    onChange={(e) => setNewList(e.target.value)}
+                />
+                <button
+                    onClick={() =>
+                        !(newList === "" || lists.indexOf(newList))
+                            ? alert("This list already exists!")
+                            : setLists([...lists, newList])
+                    }
+                >
+                    Create List
+                </button>
                 <div style={{ display: "flex", gap: "100px" }}>
-                    <List
-                        thisList={lists.todo}
-                        tasks={tasks}
-                        setTasks={setTasks}
-                    >
-                        {tasks
-                            .filter((element) =>
-                                element.list.listName === lists.todo.listName
-                                    ? element
-                                    : null
-                            )
-                            .map((task) => (
-                                <Todo
-                                    key={uuidv4()}
-                                    id={task.id}
-                                    task={task.name}
-                                />
-                            ))}
-                    </List>
-                    <List
-                        thisList={lists.completed}
-                        tasks={tasks}
-                        setTasks={setTasks}
-                    >
-                        {tasks
-                            .filter((element) =>
-                                element.list.listName ===
-                                lists.completed.listName
-                                    ? element
-                                    : null
-                            )
-                            .map((task) => (
-                                <Todo
-                                    key={uuidv4()}
-                                    id={task.id}
-                                    task={task.name}
-                                />
-                            ))}
-                    </List>
+                    {lists.map((list) => (
+                        <List
+                            key={uuidv4()}
+                            thisList={list}
+                            tasks={tasks}
+                            setTasks={setTasks}
+                        >
+                            {tasks
+                                .filter((element) =>
+                                    element.list === list ? element : null
+                                )
+                                .map((task) => (
+                                    <Todo
+                                        key={uuidv4()}
+                                        id={task.id}
+                                        task={task.name}
+                                    />
+                                ))}
+                        </List>
+                    ))}
                 </div>
                 <a
                     style={{ paddingTop: "50px" }}
