@@ -5,6 +5,8 @@ import { useDrag } from "react-dnd";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { GithubLink } from "./Components/GithubLink";
+import { AddList } from "./Components/AddList";
+import { AddTask } from "./Components/AddTask";
 
 function Todo({ task, id }: { task: string; id: string }) {
     const [, drag] = useDrag(() => ({
@@ -16,15 +18,7 @@ function Todo({ task, id }: { task: string; id: string }) {
     }));
 
     return (
-        <span
-            ref={drag}
-            style={{
-                textAlign: "center",
-                userSelect: "none",
-                cursor: "pointer",
-                fontSize: "24px",
-            }}
-        >
+        <span ref={drag} className="todo">
             {task}
         </span>
     );
@@ -64,55 +58,16 @@ function List({
             ]);
         },
     });
-    const [newItem, setAddNewItem] = useState("");
 
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "20px",
-                    alignItems: "center",
-
-                    flexWrap: "wrap",
-                }}
-                ref={drop}
-            >
+            <div className="list" ref={drop}>
                 <h2>{thisList}</h2>
-                <div
-                    style={{
-                        backgroundColor: "lightgray",
-                        padding: "20px",
-                        borderRadius: "15px",
-                        display: "flex",
-                        gap: "10px",
-                    }}
-                >
-                    <input
-                        style={{ borderRadius: "15px" }}
-                        type="text"
-                        onChange={(e) => setAddNewItem(e.target.value)}
-                        value={newItem}
-                    />
-                    <button
-                        onClick={() => {
-                            if (newItem !== "") {
-                                setTasks([
-                                    ...tasks,
-                                    {
-                                        list: thisList,
-                                        name: newItem,
-                                        id: uuidv4(),
-                                    },
-                                ]);
-                                setAddNewItem("");
-                            }
-                        }}
-                    >
-                        Add Item
-                    </button>
-                </div>
+                <AddTask
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    thisList={thisList}
+                />
                 {children}
             </div>
         </>
@@ -124,54 +79,17 @@ interface ITask {
     name: string;
     id: string;
 }
+
 function App() {
     const [lists, setLists] = useState(["To do", "Completed"]);
-    const [newList, setNewList] = useState("");
-
     const [tasks, setTasks] = useState<ITask[]>([]);
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div
-                style={{
-                    width: "100vw",
-                    display: "grid",
-                    justifyItems: "center",
-                    paddingTop: "50px",
-                }}
-            >
+            <div className="app-grid">
                 <h1>Drag'n'Drop To-do List</h1>
-                <div style={{ display: "flex" }}>
-                    <input
-                        type="text"
-                        onChange={(e) => setNewList(e.target.value)}
-                    />
-                    <button
-                        onClick={() => {
-                            console.log(
-                                "newList: ",
-                                newList,
-                                !!newList,
-                                !lists.indexOf(newList)
-                            );
-                            !!newList || !lists.indexOf(newList)
-                                ? (setLists([...lists, newList]),
-                                  setNewList(""))
-                                : alert(
-                                      "New list names should not be empty or existing"
-                                  );
-                        }}
-                    >
-                        Create List
-                    </button>
-                </div>
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(3, 1fr)",
-                        gap: "100px",
-                    }}
-                >
+                <AddList lists={lists} setLists={setLists} />
+                <div className="lists-grid">
                     {lists.map((list) => (
                         <List
                             key={uuidv4()}
@@ -184,11 +102,19 @@ function App() {
                                     element.list === list ? element : null
                                 )
                                 .map((task) => (
-                                    <Todo
-                                        key={uuidv4()}
-                                        id={task.id}
-                                        task={task.name}
-                                    />
+                                    <>
+                                        <Todo
+                                            key={uuidv4()}
+                                            id={task.id}
+                                            task={task.name}
+                                        />
+                                        <hr
+                                            style={{
+                                                border: "2px solid black",
+                                                width: "60%",
+                                            }}
+                                        />
+                                    </>
                                 ))}
                         </List>
                     ))}
@@ -198,5 +124,4 @@ function App() {
         </DndProvider>
     );
 }
-
 export default App;

@@ -1,0 +1,53 @@
+.list hr:last-child {
+    display: none;
+}
+
+.todo {
+    text-align: center;
+
+    user-select: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.list {
+    word-wrap: break-word;
+    max-width: 30vw;
+    display: flex;
+    color: black;
+    flex-direction: column;
+    height: fit-content;
+    gap: 20px;
+    align-items: center;
+    background-color: #ffff99;
+    box-shadow: 20px 20px black;
+    border-radius: 15px;
+    padding-bottom: 40px;
+}
+
+.tasks {
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    gap: 10px;
+}
+.tasks > input {
+    border-radius: 15px;
+    background-color: #ffff99;
+    color: black;
+}
+
+.app-grid {
+    width: 100vw;
+    display: grid;
+    justify-items: center;
+    padding-top: 50px;
+    gap: 50px;
+}
+
+.lists-grid {
+    margin-inline: 100px;
+    display: flex;
+    gap: 100px;
+    flex-wrap: wrap;
+}
