@@ -4,6 +4,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDrag } from "react-dnd";
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { GithubLink } from "./Components/GithubLink";
 
 function Todo({ task, id }: { task: string; id: string }) {
     const [, drag] = useDrag(() => ({
@@ -73,6 +74,8 @@ function List({
                     flexDirection: "column",
                     gap: "20px",
                     alignItems: "center",
+
+                    flexWrap: "wrap",
                 }}
                 ref={drop}
             >
@@ -137,21 +140,38 @@ function App() {
                     paddingTop: "50px",
                 }}
             >
-                <h1>To-do List</h1>
-                <input
-                    type="text"
-                    onChange={(e) => setNewList(e.target.value)}
-                />
-                <button
-                    onClick={() =>
-                        !(newList === "" || lists.indexOf(newList))
-                            ? alert("This list already exists!")
-                            : setLists([...lists, newList])
-                    }
+                <h1>Drag'n'Drop To-do List</h1>
+                <div style={{ display: "flex" }}>
+                    <input
+                        type="text"
+                        onChange={(e) => setNewList(e.target.value)}
+                    />
+                    <button
+                        onClick={() => {
+                            console.log(
+                                "newList: ",
+                                newList,
+                                !!newList,
+                                !lists.indexOf(newList)
+                            );
+                            !!newList || !lists.indexOf(newList)
+                                ? (setLists([...lists, newList]),
+                                  setNewList(""))
+                                : alert(
+                                      "New list names should not be empty or existing"
+                                  );
+                        }}
+                    >
+                        Create List
+                    </button>
+                </div>
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3, 1fr)",
+                        gap: "100px",
+                    }}
                 >
-                    Create List
-                </button>
-                <div style={{ display: "flex", gap: "100px" }}>
                     {lists.map((list) => (
                         <List
                             key={uuidv4()}
@@ -173,12 +193,7 @@ function App() {
                         </List>
                     ))}
                 </div>
-                <a
-                    style={{ paddingTop: "50px" }}
-                    href="https://github.com/JennaHuff/DragAndDrop-Test"
-                >
-                    https://github.com/JennaHuff/DragAndDrop-Test
-                </a>
+                <GithubLink />
             </div>
         </DndProvider>
     );
