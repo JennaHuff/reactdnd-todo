@@ -26,23 +26,13 @@ function List({
     tasks,
     setTasks,
     children,
+    handleListDelete,
 }: {
     thisList: string;
-    tasks: {
-        list: string;
-        name: string;
-        id: string;
-    }[];
-    setTasks: React.Dispatch<
-        React.SetStateAction<
-            {
-                list: string;
-                name: string;
-                id: string;
-            }[]
-        >
-    >;
+    tasks: ITask[];
+    setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
     children: React.ReactNode;
+    handleListDelete(listToDelete: string): void;
 }) {
     const [, drop] = useDrop({
         accept: "task",
@@ -72,11 +62,48 @@ function List({
     return (
         <>
             <div className="list" ref={drop}>
+                <button
+                    style={{ alignSelf: "flex-start", borderRadius: "100px" }}
+                    onClick={() => handleListDelete(thisList)}
+                >
+                    X
+                </button>
                 <h2>{thisList}</h2>
                 <AddTask handleSubmit={handleSubmit} />
                 {children}
             </div>
         </>
+    );
+}
+
+function Trashcan({
+    tasks,
+    setTasks,
+}: {
+    tasks: ITask[];
+    setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+}) {
+    const [, drop] = useDrop({
+        accept: "task",
+        drop: (item: { task: ITask }) => {
+            setTasks([
+                ...tasks.filter((element) =>
+                    element.id === item.task.id ? null : element
+                ),
+            ]);
+        },
+    });
+    return (
+        <img
+            width={"80px"}
+            style={{
+                position: "sticky",
+                top: "20px",
+                left: "20px",
+            }}
+            src="../public/International_tidyman.svg"
+            ref={drop}
+        />
     );
 }
 
@@ -104,8 +131,15 @@ function App() {
         cleanFunction();
     }
 
+    function handleListDelete(listToDelete: string) {
+        setLists([
+            ...lists.filter((list) => (list === listToDelete ? null : list)),
+        ]);
+    }
+
     return (
         <DndProvider backend={HTML5Backend}>
+            <Trashcan tasks={tasks} setTasks={setTasks} />
             <div className="app-grid">
                 <h1>Drag & Drop To-do List</h1>
                 <AddList handleSubmit={handleSubmit} />
@@ -116,6 +150,7 @@ function App() {
                             thisList={list}
                             tasks={tasks}
                             setTasks={setTasks}
+                            handleListDelete={handleListDelete}
                         >
                             {tasks
                                 .filter((task) =>
