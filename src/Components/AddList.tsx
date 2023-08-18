@@ -8,7 +8,7 @@ export function AddList({
     const [newList, setNewList] = useState("");
 
     return (
-        <div>
+        <div className="add-list-input add-element">
             <input
                 type="text"
                 onChange={(e) => setNewList(e.target.value)}

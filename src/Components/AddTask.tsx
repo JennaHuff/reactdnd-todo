@@ -9,7 +9,7 @@ export function AddTask({
     const [newItem, setAddNewItem] = useState("");
 
     return (
-        <div className="tasks">
+        <div className="add-task-input add-element">
             <input
                 type="text"
                 onChange={(e) => setAddNewItem(e.target.value)}

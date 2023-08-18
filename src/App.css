@@ -1,6 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 
+#root {
+    --bg-color-light: #99ccff;
+    --bg-color-dark: #7c53a5;
+    --paper-color: #ffff99;
+    --buttons-color: #ff9999;
+
+    background-color: var(--bg-color-light);
+}
+
+h1 {
+    text-transform: uppercase;
+    color: black;
+    font-weight: bold;
+    /* font-size: 76px; */
+    font-size: 3.2em;
+    line-height: 1;
+    letter-spacing: -1.5px;
+}
+input {
+    background-color: transparent;
+    color: black;
+    font-weight: bold;
+}
+button {
+    background-color: var(--buttons-color);
+    color: black;
+    font-weight: bold;
+}
+
 .list hr {
     border: 1px solid black;
     width: 60%;
@@ -34,23 +63,32 @@
     height: fit-content;
     gap: 20px;
     align-items: center;
-    background-color: #ffff99;
-    box-shadow: 20px 20px black;
+    background-color: var(--paper-color);
+    box-shadow: 20px 20px var(--bg-color-dark);
     border-radius: 5px;
     /* border-radius: 15px; */
     padding-bottom: 40px;
 }
 
-.tasks {
+.add-element {
     padding: 20px;
     border-radius: 15px;
     display: flex;
     gap: 10px;
 }
-.tasks > input {
+.add-element > input {
     border-radius: 15px;
-    background-color: #ffff99;
-    color: black;
+}
+.add-task-input > input {
+    background-color: var(--paper-color);
+}
+
+.add-list-input > input {
+    border: 2px solid var(--bg-color-dark);
+}
+.add-list-input > button {
+    color: antiquewhite;
+    background-color: var(--bg-color-dark);
 }
 
 .app-grid {

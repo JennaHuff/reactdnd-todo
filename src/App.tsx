@@ -8,18 +8,15 @@ import { GithubLink } from "./Components/GithubLink";
 import { AddList } from "./Components/AddList";
 import { AddTask } from "./Components/AddTask";
 
-function Todo({ task, id }: { task: string; id: string }) {
+function Todo({ task }: { task: ITask }) {
     const [, drag] = useDrag(() => ({
         type: "task",
-        item: {
-            task,
-            id,
-        },
+        item: { task: task },
     }));
 
     return (
         <span ref={drag} className="todo">
-            {task}
+            {task.name}
         </span>
     );
 }
@@ -49,12 +46,12 @@ function List({
 }) {
     const [, drop] = useDrop({
         accept: "task",
-        drop: (item: { task: string; id: string }) => {
+        drop: (item: { task: ITask }) => {
             setTasks([
                 ...tasks.filter((element) =>
-                    element.id === item.id ? null : element
+                    element.id === item.task.id ? null : element
                 ),
-                { list: thisList, name: item.task, id: uuidv4() },
+                { list: thisList, name: item.task.name, id: uuidv4() },
             ]);
         },
     });
@@ -110,7 +107,7 @@ function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="app-grid">
-                <h1>Drag'n'Drop To-do List</h1>
+                <h1>Drag & Drop To-do List</h1>
                 <AddList handleSubmit={handleSubmit} />
                 <div className="lists-grid">
                     {lists.map((list) => (
@@ -126,11 +123,7 @@ function App() {
                                 )
                                 .map((task) => (
                                     <>
-                                        <Todo
-                                            key={uuidv4()}
-                                            id={task.id}
-                                            task={task.name}
-                                        />
+                                        <Todo key={uuidv4()} task={task} />
                                         <hr />
                                     </>
                                 ))}
