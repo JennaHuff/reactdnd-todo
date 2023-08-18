@@ -59,15 +59,24 @@ function List({
         },
     });
 
+    function handleSubmit(newItem: string) {
+        if (newItem.trim() !== "") {
+            setTasks([
+                ...tasks,
+                {
+                    list: thisList,
+                    name: newItem,
+                    id: uuidv4(),
+                },
+            ]);
+        }
+    }
+
     return (
         <>
             <div className="list" ref={drop}>
                 <h2>{thisList}</h2>
-                <AddTask
-                    tasks={tasks}
-                    setTasks={setTasks}
-                    thisList={thisList}
-                />
+                <AddTask handleSubmit={handleSubmit} />
                 {children}
             </div>
         </>
@@ -84,11 +93,25 @@ function App() {
     const [lists, setLists] = useState(["To do", "Completed"]);
     const [tasks, setTasks] = useState<ITask[]>([]);
 
+    function handleSubmit(newList: string, cleanFunction: () => void) {
+        if (newList.trim() === "") {
+            alert("New list names should not be empty");
+            return;
+        }
+
+        if (lists.includes(newList)) {
+            alert("This list already exists");
+            return;
+        }
+        setLists([...lists, newList]);
+        cleanFunction();
+    }
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="app-grid">
                 <h1>Drag'n'Drop To-do List</h1>
-                <AddList lists={lists} setLists={setLists} />
+                <AddList handleSubmit={handleSubmit} />
                 <div className="lists-grid">
                     {lists.map((list) => (
                         <List

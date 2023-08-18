@@ -1,42 +1,22 @@
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 
 export function AddTask({
-    tasks,
-    setTasks,
-    thisList,
+    handleSubmit,
 }: {
-    tasks: { list: string; name: string; id: string }[];
-    setTasks: React.Dispatch<
-        React.SetStateAction<{ list: string; name: string; id: string }[]>
-    >;
-    thisList: string;
+    handleSubmit(newItem: string): void;
 }) {
+    // setAddNewItem("");
     const [newItem, setAddNewItem] = useState("");
-
-    function handleSubmit() {
-        if (newItem !== "") {
-            setTasks([
-                ...tasks,
-                {
-                    list: thisList,
-                    name: newItem,
-                    id: uuidv4(),
-                },
-            ]);
-            setAddNewItem("");
-        }
-    }
 
     return (
         <div className="tasks">
             <input
                 type="text"
                 onChange={(e) => setAddNewItem(e.target.value)}
-                onKeyUp={(e) => e.key === "Enter" && handleSubmit()}
+                onKeyUp={(e) => e.key === "Enter" && handleSubmit(newItem)}
                 value={newItem}
             />
-            <button onClick={() => handleSubmit()}>Add Item</button>
+            <button onClick={() => handleSubmit(newItem)}>Add Item</button>
         </div>
     );
 }
