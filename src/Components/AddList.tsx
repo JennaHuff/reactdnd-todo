@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 export function AddList({
-    handleSubmit,
+    handleCreateList,
 }: {
-    handleSubmit(newList: string, cleanFunction: () => void): void;
+    handleCreateList(newList: string, cleanFunction: () => void): void;
 }) {
     const [newList, setNewList] = useState("");
 
@@ -14,11 +14,13 @@ export function AddList({
                 onChange={(e) => setNewList(e.target.value)}
                 onKeyUp={(e) =>
                     e.key === "Enter" &&
-                    handleSubmit(newList, () => setNewList(""))
+                    handleCreateList(newList, () => setNewList(""))
                 }
                 value={newList}
             />
-            <button onClick={() => handleSubmit(newList, () => setNewList(""))}>
+            <button
+                onClick={() => handleCreateList(newList, () => setNewList(""))}
+            >
                 Create List
             </button>
         </div>

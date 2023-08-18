@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 export function AddTask({
-    handleSubmit,
+    thisList,
+    handleCreateTask,
 }: {
-    handleSubmit(newItem: string): void;
+    thisList: string;
+    handleCreateTask(newItem: string, list: string): void;
 }) {
-    // setAddNewItem("");
     const [newItem, setAddNewItem] = useState("");
 
     return (
@@ -13,10 +14,14 @@ export function AddTask({
             <input
                 type="text"
                 onChange={(e) => setAddNewItem(e.target.value)}
-                onKeyUp={(e) => e.key === "Enter" && handleSubmit(newItem)}
+                onKeyUp={(e) =>
+                    e.key === "Enter" && handleCreateTask(newItem, thisList)
+                }
                 value={newItem}
             />
-            <button onClick={() => handleSubmit(newItem)}>Add Item</button>
+            <button onClick={() => handleCreateTask(newItem, thisList)}>
+                Add Item
+            </button>
         </div>
     );
 }
