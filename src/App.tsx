@@ -98,8 +98,8 @@ function App() {
                             setTasks={setTasks}
                         >
                             {tasks
-                                .filter((element) =>
-                                    element.list === list ? element : null
+                                .filter((task) =>
+                                    task.list === list ? task : null
                                 )
                                 .map((task) => (
                                     <>

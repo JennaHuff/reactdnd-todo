@@ -13,30 +13,30 @@ export function AddTask({
     thisList: string;
 }) {
     const [newItem, setAddNewItem] = useState("");
+
+    function handleSubmit() {
+        if (newItem !== "") {
+            setTasks([
+                ...tasks,
+                {
+                    list: thisList,
+                    name: newItem,
+                    id: uuidv4(),
+                },
+            ]);
+            setAddNewItem("");
+        }
+    }
+
     return (
         <div className="tasks">
             <input
                 type="text"
                 onChange={(e) => setAddNewItem(e.target.value)}
+                onKeyUp={(e) => e.key === "Enter" && handleSubmit()}
                 value={newItem}
             />
-            <button
-                onClick={() => {
-                    if (newItem !== "") {
-                        setTasks([
-                            ...tasks,
-                            {
-                                list: thisList,
-                                name: newItem,
-                                id: uuidv4(),
-                            },
-                        ]);
-                        setAddNewItem("");
-                    }
-                }}
-            >
-                Add Item
-            </button>
+            <button onClick={() => handleSubmit()}>Add Item</button>
         </div>
     );
 }
