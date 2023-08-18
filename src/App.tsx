@@ -8,6 +8,7 @@ import { AddList } from "./Components/AddList";
 import { Trashcan } from "./Components/Trashcan";
 import { Todo } from "./Components/Todo";
 import { List } from "./Components/List";
+import { Title } from "./Title";
 
 function App() {
     const [lists, setLists] = useState(["To do", "Completed"]);
@@ -73,7 +74,7 @@ function App() {
                 handleDeleteList={handleDeleteList}
             />
             <div className="app-grid">
-                <h1>Drag & Drop To-do List</h1>
+                <Title />
                 <AddList handleCreateList={handleCreateList} />
                 <div className="lists-grid">
                     {lists.map((list) => (

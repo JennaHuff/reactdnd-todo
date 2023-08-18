@@ -8,11 +8,18 @@ export function Trashcan({
     handleDeleteList(listToDelete: string): void;
 }) {
     const [, drop] = useDrop({
-        accept: ["task", "list"],
-        drop: (item: { task: ITask; list: string }) => {
-            item.list
-                ? handleDeleteList(item.list)
-                : handleDeleteTask(item.task);
+        accept: ["task", "list", "title"],
+        drop: (item: {
+            type: string;
+            task: ITask;
+            list: string;
+            titleExists: boolean;
+            setTitleExists: React.Dispatch<React.SetStateAction<boolean>>;
+        }) => {
+            console.log(item);
+            item.type === "title" && item.setTitleExists(!item.titleExists);
+            item.type === "task" && handleDeleteTask(item.task);
+            item.type === "list" && handleDeleteList(item.list);
         },
     });
     return (
@@ -23,7 +30,7 @@ export function Trashcan({
                 top: "20px",
                 left: "20px",
             }}
-            src="../public/International_tidyman.svg"
+            src="/International_tidyman.svg"
             ref={drop}
         />
     );

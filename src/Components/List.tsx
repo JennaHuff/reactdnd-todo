@@ -21,7 +21,7 @@ export function List({
     });
     const [, drag] = useDrag({
         type: "list",
-        item: { list: thisList },
+        item: { type: "list", list: thisList },
     });
 
     return (

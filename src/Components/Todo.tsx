@@ -3,7 +3,7 @@ import { useDrag } from "react-dnd";
 export function Todo({ task }: { task: ITask }) {
     const [, drag] = useDrag(() => ({
         type: "task",
-        item: { task: task },
+        item: { type: "task", task: task },
     }));
 
     return (
