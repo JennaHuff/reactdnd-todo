@@ -3,16 +3,22 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { GithubLink } from "./Components/GithubLink";
 import { AddList } from "./Components/AddList";
 import { Trashcan } from "./Components/Trashcan";
 import { Todo } from "./Components/Todo";
 import { List } from "./Components/List";
-import { Title } from "./Title";
+import { Title } from "./Components/Title";
 
 function App() {
-    const [lists, setLists] = useState(["To do", "Completed"]);
-    const [tasks, setTasks] = useState<ITask[]>([]);
+    const [lists, setLists] = useState([
+        "To do",
+        "Completed",
+        "Throw Me Away Too!",
+    ]);
+    const [tasks, setTasks] = useState<ITask[]>([
+        { list: "To do", name: "Drag me to another list", id: uuidv4() },
+        { list: "To do", name: "Throw me away", id: uuidv4() },
+    ]);
 
     function handleCreateList(newList: string, cleanFunction: () => void) {
         if (newList.trim() === "") {
@@ -73,31 +79,28 @@ function App() {
                 handleDeleteTask={handleDeleteTask}
                 handleDeleteList={handleDeleteList}
             />
-            <div className="app-grid">
-                <Title />
-                <AddList handleCreateList={handleCreateList} />
-                <div className="lists-grid">
-                    {lists.map((list) => (
-                        <List
-                            key={uuidv4()}
-                            thisList={list}
-                            handleCreateTask={handleCreateTask}
-                            handleDropTask={handleDropTask}
-                        >
-                            {tasks
-                                .filter((task) =>
-                                    task.list === list ? task : null
-                                )
-                                .map((task) => (
-                                    <>
-                                        <Todo key={uuidv4()} task={task} />
-                                        <hr key={uuidv4()} />
-                                    </>
-                                ))}
-                        </List>
-                    ))}
-                </div>
-                <GithubLink />
+            <Title />
+            <AddList handleCreateList={handleCreateList}></AddList>
+            <div className="lists-grid">
+                {lists.map((list) => (
+                    <List
+                        key={uuidv4()}
+                        thisList={list}
+                        handleCreateTask={handleCreateTask}
+                        handleDropTask={handleDropTask}
+                    >
+                        {tasks
+                            .filter((task) =>
+                                task.list === list ? task : null
+                            )
+                            .map((task) => (
+                                <>
+                                    <Todo key={uuidv4()} task={task} />
+                                    <hr key={uuidv4()} />
+                                </>
+                            ))}
+                    </List>
+                ))}
             </div>
         </DndProvider>
     );

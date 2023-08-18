@@ -25,7 +25,7 @@ export function List({
     });
 
     return (
-        <div ref={drag}>
+        <div ref={drag} className="list-drag">
             <div ref={drop} className="list">
                 <h2>{thisList}</h2>
                 <AddTask
