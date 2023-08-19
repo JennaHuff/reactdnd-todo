@@ -31,7 +31,7 @@ a {
 
 input {
     background-color: transparent;
-    color: var(--text-color);
+    color: black;
     font-weight: bold;
     padding: 20px;
 }
