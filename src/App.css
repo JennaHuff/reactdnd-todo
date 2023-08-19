@@ -6,8 +6,10 @@
     --bg-color-dark: #7c53a5;
     --paper-color: #ffff99;
     --buttons-color: #ff9999;
+    --text-color: white;
 
-    background-color: var(--bg-color-light);
+    background-color: #2c96ff;
+    /* background-color: var(--bg-color-light); */
     width: 100%;
     padding-inline: 8vw;
     padding-bottom: 8vw;
@@ -16,16 +18,20 @@
 .title {
     text-align: center;
     text-transform: uppercase;
-    color: black;
+    color: --text-color;
     font-weight: bold;
     font-size: clamp(10px, 5vw, 1.6em);
     line-height: 1;
     letter-spacing: -1.5px;
 }
 
+a {
+    color: lightblue;
+}
+
 input {
     background-color: transparent;
-    color: black;
+    color: var(--text-color);
     font-weight: bold;
     padding: 20px;
 }

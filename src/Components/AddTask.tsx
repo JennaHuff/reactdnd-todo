@@ -20,7 +20,7 @@ export function AddTask({
                 value={newItem}
             />
             <button onClick={() => handleCreateTask(newItem, thisList)}>
-                Add Item
+                Add
             </button>
         </div>
     );
