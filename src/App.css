@@ -10,7 +10,8 @@
 
     background-color: #2c96ff;
     width: 100%;
-    padding-inline: 8vw;
+
+    /* padding-inline: 8vw; */
     padding-bottom: 8vw;
 }
 
@@ -35,7 +36,7 @@ button {
 .lists-grid {
     display: flex;
     justify-content: center;
-    gap: 100px;
+    gap: 60px;
     flex-wrap: wrap;
 }
 

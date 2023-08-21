@@ -11,8 +11,8 @@ const StyledTodo = styled.span`
 
 export function Todo({ task }: { task: ITask }) {
     const [, drag] = useDrag(() => ({
-        type: "task",
-        item: { type: "task", task: task },
+        type: task.type,
+        item: task,
     }));
 
     return (

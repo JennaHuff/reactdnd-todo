@@ -1,22 +1,32 @@
 import { useDrag, useDrop } from "react-dnd";
 import React from "react";
-import { ITask } from "../utils/types";
-import { AddTask } from "./Forms";
+import { IList, ITask } from "../utils/types";
 import styled from "styled-components";
 import clsx from "clsx";
+import { TextInputButton } from "../../../components/TextInputButton";
 
 const StyledDrop = styled.div`
     display: flex;
     color: black;
     flex-direction: column;
     height: fit-content;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
     background-color: var(--paper-color);
     box-shadow: 20px 20px var(--bg-color-dark);
     border-radius: 5px;
-    padding-inline: 15px;
-    padding-bottom: 20px;
+    padding-inline: 10px;
+    padding-bottom: 15px;
+    & .task-and-hr {
+        hr {
+            border: 1px solid black;
+        }
+    }
+    & .task-and-hr:last-child {
+        hr {
+            display: none;
+        }
+    }
 `;
 
 const StyledDrag = styled.div`
@@ -27,13 +37,6 @@ const StyledDrag = styled.div`
         word-wrap: anywhere;
         font-size: 24px;
     }
-    hr {
-        border: 1px solid black;
-        width: 60%;
-    }
-    hr:last-child {
-        display: none;
-    }
     &.dropable {
         opacity: 0.5;
     }
@@ -43,20 +46,20 @@ const StyledDrag = styled.div`
 `;
 
 export function List({
-    thisList,
+    list,
     handleCreateTask,
-    handleDropTask,
+    handleMoveTask,
     children,
 }: {
-    thisList: string;
-    handleCreateTask(newItem: string, list: string): void;
-    handleDropTask(task: ITask, list: string): void;
+    list: IList;
+    handleCreateTask(newItem: string, listId: string): void;
+    handleMoveTask(task: ITask, destinationListId: string): void;
     children: React.ReactNode;
 }) {
     const [{ isOver, canDrop }, drop] = useDrop({
-        accept: "task",
-        drop: (item: { task: ITask }) => {
-            handleDropTask(item.task, thisList);
+        accept: "Task",
+        drop: (item: ITask) => {
+            handleMoveTask(item, list.id);
         },
         collect: (monitor) => ({
             canDrop: monitor.canDrop(),
@@ -64,8 +67,8 @@ export function List({
         }),
     });
     const [, drag] = useDrag({
-        type: "list",
-        item: { type: "list", list: thisList },
+        type: list.type,
+        item: list,
     });
 
     return (
@@ -77,10 +80,10 @@ export function List({
             })}
         >
             <StyledDrop ref={drop} className="clickable">
-                <h2>{thisList}</h2>
-                <AddTask
-                    thisList={thisList}
-                    handleCreateTask={handleCreateTask}
+                <h2>{list.name}</h2>
+                <TextInputButton
+                    label="Add"
+                    onConfirm={(value) => handleCreateTask(value, list.id)}
                 />
                 {children}
             </StyledDrop>

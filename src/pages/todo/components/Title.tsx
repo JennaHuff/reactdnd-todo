@@ -3,11 +3,13 @@ import { useState } from "react";
 import styled from "styled-components";
 
 const StyledTitle = styled.div`
+    h1 {
+        font-family: Permanent Marker;
+    }
     text-align: center;
     text-transform: uppercase;
     color: --text-color;
     font-weight: bold;
-    font-size: clamp(10px, 5vw, 1.6em);
     line-height: 1;
     letter-spacing: -1.5px;
 `;

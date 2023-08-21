@@ -5,8 +5,7 @@ const StyledInput = styled.div`
     button {
         background-color: var(--bg-color-dark);
     }
-    padding: 10px;
-    border: 2px solid red;
+    padding: 8px;
     border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
@@ -21,15 +20,21 @@ interface TextInputButtonProps {
 
 export function TextInputButton({ onConfirm, label }: TextInputButtonProps) {
     const [value, setNewValue] = useState("");
+
+    function handleConfirm() {
+        onConfirm(value);
+        setNewValue("");
+    }
+
     return (
         <StyledInput>
             <input
                 type="text"
                 onChange={(e) => setNewValue(e.target.value)}
-                onKeyUp={(e) => e.key === "Enter" && onConfirm(value)}
+                onKeyUp={(e) => e.key === "Enter" && handleConfirm()}
                 value={value}
             />
-            <button onClick={() => onConfirm(value)}>{label}</button>
+            <button onClick={handleConfirm}>{label}</button>
         </StyledInput>
     );
 }
