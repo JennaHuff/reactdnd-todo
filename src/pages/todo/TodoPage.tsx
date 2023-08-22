@@ -15,8 +15,6 @@ const StyledHeader = styled.div`
     input {
         background-color: white;
     }
-    position: absolute;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -95,11 +93,11 @@ export function TodoPage() {
                     >
                         {tasks
                             .filter((task) => task.listId === list.id)
-                            .map((task) => (
-                                <div className="task-and-hr" key={task.id}>
-                                    <Todo task={task} />
-                                    <hr />
-                                </div>
+                            .map((task, index) => (
+                                <>
+                                    <Todo key={task.id} task={task} />
+                                    <hr key={index} />
+                                </>
                             ))}
                     </List>
                 ))}

@@ -5,16 +5,18 @@ import styled from "styled-components";
 const StyledTitle = styled.div`
     h1 {
         font-family: Permanent Marker;
+        letter-spacing: -1.5px;
+        text-transform: uppercase;
     }
     text-align: center;
-    text-transform: uppercase;
+
     color: --text-color;
     font-weight: bold;
     line-height: 1;
-    letter-spacing: -1.5px;
 `;
 
 const StyledLink = styled.a`
+    text-transform: uppercase;
     padding-top: 50px;
     color: lightblue;
 `;

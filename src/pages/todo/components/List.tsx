@@ -17,15 +17,12 @@ const StyledDrop = styled.div`
     border-radius: 5px;
     padding-inline: 10px;
     padding-bottom: 15px;
-    & .task-and-hr {
-        hr {
-            border: 1px solid black;
-        }
+    hr {
+        width: 50%;
+        border: 1px solid black;
     }
-    & .task-and-hr:last-child {
-        hr {
-            display: none;
-        }
+    hr:last-child {
+        display: none;
     }
 `;
 
