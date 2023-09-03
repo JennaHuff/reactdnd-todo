@@ -17,27 +17,39 @@
 
 .backgammon-page {
     min-height: 100svh;
+    display: grid;
+    place-content: center;
 }
 
 .square {
     display: flex;
+    overflow-y: scroll;
     flex-direction: column;
     border: 2px dashed black;
-    width: fit-content;
+    width: calc(80vw / 12);
 }
 
 .can-drop {
     background-color: yellow;
     opacity: 0.5;
+    color: black;
 }
 
 .is-over {
     opacity: 1;
 }
 
+.pawn {
+    height: fit-content;
+}
+
 .board {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    display: flex;
+    height: 30vh;
+    flex-flow: row-reverse;
+}
+.board2 {
+    flex-flow: row;
 }
 
 .white {

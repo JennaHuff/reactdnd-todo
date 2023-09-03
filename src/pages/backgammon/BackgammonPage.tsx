@@ -7,31 +7,25 @@ interface ISquare {
     color: "black" | "white" | "";
 }
 
-function Pawn({
-    provenanceSquare,
-    color,
-}: {
-    provenanceSquare: ISquare["id"];
-    color: ISquare["color"];
-}) {
-    const svgSize = 50;
-    const halfSvgSize = svgSize / 2;
+function Pawn({ square }: { square: ISquare }) {
+    // const svgSize = "100%";
+    const halfSvgSize = "50%";
 
     const [, drag] = useDrag(() => ({
         type: "pawn",
-        item: { provenanceSquare, color },
+        item: square,
     }));
 
     return (
-        <div ref={drag}>
-            <svg height={svgSize} width={svgSize}>
+        <div ref={drag} className="pawn">
+            <svg height={33} width={33}>
                 <circle
                     cx={halfSvgSize}
                     cy={halfSvgSize}
-                    r="20"
+                    r="15"
                     stroke="black"
                     strokeWidth="3"
-                    fill={color}
+                    fill={square.color}
                 />
             </svg>
         </div>
@@ -40,51 +34,35 @@ function Pawn({
 
 function Square({
     square,
-    setBoard,
+    handleDrop,
 }: {
     square: ISquare;
-    setBoard: React.Dispatch<React.SetStateAction<ISquare[]>>;
+    handleDrop(startSquare: number, endSquare: number): void;
 }) {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: "pawn",
-        drop: (item) => {
-            console.log(item);
-            setBoard((board) =>
-                board.map((element) => {
-                    if (element.id === item.provenanceSquare) {
-                        return {
-                            ...element,
-                            pawns: element.pawns - 1,
-                        } as ISquare;
-                    }
-                    if (element.id === square.id) {
-                        return {
-                            ...element,
-                            pawns: element.pawns + 1,
-                        } as ISquare;
-                    }
-                    return element;
-                })
-            );
+        drop: (item: ISquare) => {
+            handleDrop(item.id, square.id);
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
         }),
     });
-    const squareArr = [];
+
+    const pawns = [];
+
     for (let i = 0; i < square.pawns; i++) {
-        squareArr.push(
-            <Pawn provenanceSquare={square.id} color={square.color} />
-        );
+        pawns.push(<Pawn key={i} square={square} />);
     }
+
     return (
         <div
             className={`square ${canDrop && "can-drop"} ${isOver && "is-over"}`}
             ref={drop}
         >
             Id: {square.id}
-            {squareArr.map((square) => square)}
+            {pawns.map((pawn) => pawn)}
         </div>
     );
 }
@@ -95,30 +73,165 @@ function initBoard() {
         board.push({ id: i, pawns: 0, color: "" });
     }
 
-    board[0] = { ...board[0], pawns: 5, color: "white" };
+    board[0] = { ...board[0], pawns: 2, color: "white" };
+    board[11] = { ...board[11], pawns: 5, color: "white" };
     board[16] = { ...board[16], pawns: 3, color: "white" };
     board[18] = { ...board[18], pawns: 5, color: "white" };
-    board[11] = { ...board[11], pawns: 2, color: "white" };
 
-    board[4] = { ...board[4], pawns: 3, color: "black" };
-    board[6] = { ...board[6], pawns: 5, color: "black" };
-    board[12] = { ...board[12], pawns: 5, color: "black" };
     board[23] = { ...board[23], pawns: 2, color: "black" };
+    board[12] = { ...board[12], pawns: 5, color: "black" };
+    board[7] = { ...board[7], pawns: 3, color: "black" };
+    board[5] = { ...board[5], pawns: 5, color: "black" };
 
     return board;
 }
 
+function squareIsBlocked(
+    board: ISquare[],
+    startSquare: number,
+    endSquare: number
+) {
+    if (
+        board[endSquare].pawns > 1 &&
+        board[endSquare].color !== board[startSquare].color
+    ) {
+        console.log("square is blocked");
+        return true;
+    }
+    return false;
+}
+
+function moveIsACapture(
+    board: ISquare[],
+    startSquare: number,
+    endSquare: number
+) {
+    if (
+        board[endSquare].pawns === 1 &&
+        board[endSquare].color !== board[startSquare].color &&
+        board[endSquare].color !== ""
+    ) {
+        console.log("its a capture");
+        return true;
+    }
+    return false;
+}
+
+function Prison({ prisons }: { prisons: [number, number] }) {
+    const [blackPrison, whitePrison] = prisons;
+    return (
+        <>
+            <span>blackprison: {blackPrison}</span>
+            <br />
+            <span>whiteprison: {whitePrison}</span>
+        </>
+    );
+}
+
 export function Backgammon() {
+    const [turn, setTurn] = useState("white");
+    const [dice, setDice] = useState([8, 2]);
     const [board, setBoard] = useState(initBoard());
+    const [whitePrison, setWhitePrison] = useState(0);
+    const [blackPrison, setBlackPrison] = useState(0);
+
+    function sendToJail(board: ISquare[], endSquare: number) {
+        board[endSquare].color === "black"
+            ? setBlackPrison((value) => value + 1)
+            : setWhitePrison((value) => value + 1);
+    }
+
+    function handleDrop(startSquare: number, endSquare: number) {
+        if (startSquare === endSquare) {
+            return;
+        }
+        if (squareIsBlocked(board, startSquare, endSquare)) {
+            return;
+        }
+        if (board[startSquare].color !== turn) {
+            console.log("it's not your turn");
+            return;
+        }
+        if (startSquare > endSquare && turn === "white") {
+            console.log("you can only move forward, white");
+            return;
+        }
+        if (startSquare < endSquare && turn === "black") {
+            console.log("you can only move forward, black");
+            return;
+        }
+        if (dice.includes(Math.abs(endSquare - startSquare))) {
+            console.log("yes");
+            setDice((dice) =>
+                dice.filter((nb) => nb !== Math.abs(endSquare - startSquare))
+            );
+        } else {
+            console.log("no");
+            return;
+        }
+
+        setBoard((board) =>
+            board.map((square) => {
+                if (square.id === startSquare) {
+                    return {
+                        ...square,
+                        pawns: square.pawns - 1, // delete pawn from start
+                        color: square.pawns - 1 === 0 ? "" : square.color,
+                    };
+                }
+                if (square.id === endSquare) {
+                    if (moveIsACapture(board, startSquare, endSquare)) {
+                        sendToJail(board, endSquare);
+                        return {
+                            ...square,
+                            // in case of a capture, only the color of the pawn changes
+                            color: board[startSquare].color,
+                        };
+                    } else {
+                        return {
+                            ...square,
+                            pawns: square.pawns + 1, // append pawn to destination
+                            color: board[startSquare].color,
+                        };
+                    }
+                }
+                return square;
+            })
+        );
+        if (dice.length === 1) {
+            console.log("end of turn");
+            turn === "white" ? setTurn("black") : setTurn("white");
+            setDice([
+                Math.floor(Math.random() * (6 - 1) + 1),
+                Math.floor(Math.random() * (6 - 1) + 1),
+            ]);
+        }
+        return;
+    }
+
+    const topHalfBoard = board.slice(0, 12);
+    const bottomHalfBoard = board.slice(12, 24);
 
     return (
         <div className="backgammon-page">
+            {turn} to move
+            {dice}
+            <Prison prisons={[blackPrison, whitePrison]} />
             <div className="board">
-                {board.map((square) => (
+                {topHalfBoard.map((square) => (
                     <Square
                         key={square.id}
-                        setBoard={setBoard}
                         square={square}
+                        handleDrop={handleDrop}
+                    />
+                ))}
+            </div>
+            <div className="board board2">
+                {bottomHalfBoard.map((square) => (
+                    <Square
+                        key={square.id}
+                        square={square}
+                        handleDrop={handleDrop}
                     />
                 ))}
             </div>

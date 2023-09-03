@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { List } from "./components/List";
 import { Title } from "./components/Title";
@@ -94,10 +92,10 @@ export function TodoPage() {
                         {tasks
                             .filter((task) => task.listId === list.id)
                             .map((task, index) => (
-                                <>
+                                <div key={uuidv4()}>
                                     <Todo key={task.id} task={task} />
                                     <hr key={index} />
-                                </>
+                                </div>
                             ))}
                     </List>
                 ))}
