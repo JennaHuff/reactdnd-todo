@@ -74,7 +74,7 @@ export function TodoPage() {
     }
 
     return (
-        <DndProvider backend={HTML5Backend}>
+        <>
             <StyledHeader>
                 <Title />
                 <TextInputButton
@@ -102,6 +102,6 @@ export function TodoPage() {
                     </List>
                 ))}
             </div>
-        </DndProvider>
+        </>
     );
 }

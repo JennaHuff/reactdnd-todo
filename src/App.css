@@ -15,6 +15,38 @@
     padding-bottom: 8vw;
 }
 
+.backgammon-page {
+    min-height: 100svh;
+}
+
+.square {
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed black;
+    width: fit-content;
+}
+
+.can-drop {
+    background-color: yellow;
+    opacity: 0.5;
+}
+
+.is-over {
+    opacity: 1;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.white {
+    background-color: white;
+}
+.black {
+    background-color: black;
+}
+
 .clickable {
     user-select: none;
     cursor: pointer;
