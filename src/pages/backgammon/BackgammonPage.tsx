@@ -35,18 +35,22 @@ function Pawn({ square }: { square: ISquare }) {
 function Square({
     square,
     handleDrop,
+    dice,
 }: {
     square: ISquare;
     handleDrop(startSquare: number, endSquare: number): void;
+    dice: number[];
 }) {
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: "pawn",
         drop: (item: ISquare) => {
             handleDrop(item.id, square.id);
         },
+        canDrop: (item) =>
+            dice ? !!dice.includes(Math.abs(square.id - item.id)) : false,
         collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop(),
         }),
     });
 
@@ -134,6 +138,7 @@ export function Backgammon() {
     const [board, setBoard] = useState(initBoard());
     const [whitePrison, setWhitePrison] = useState(0);
     const [blackPrison, setBlackPrison] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function sendToJail(board: ISquare[], endSquare: number) {
         board[endSquare].color === "black"
@@ -150,23 +155,30 @@ export function Backgammon() {
         }
         if (board[startSquare].color !== turn) {
             console.log("it's not your turn");
+            setErrorMessage("it's not your turn");
             return;
         }
         if (startSquare > endSquare && turn === "white") {
             console.log("you can only move forward, white");
+            setErrorMessage("you can only move forward, white");
             return;
         }
         if (startSquare < endSquare && turn === "black") {
             console.log("you can only move forward, black");
+            setErrorMessage("you can only move forward, black");
             return;
         }
         if (dice.includes(Math.abs(endSquare - startSquare))) {
-            console.log("yes");
-            setDice((dice) =>
-                dice.filter((nb) => nb !== Math.abs(endSquare - startSquare))
-            );
+            setErrorMessage("good move!");
+            setDice((dice) => {
+                console.log(dice);
+                return dice.filter(
+                    (nb) => nb !== Math.abs(endSquare - startSquare)
+                );
+            });
         } else {
-            console.log("no");
+            console.log("illegal move");
+            setErrorMessage("illegal move");
             return;
         }
 
@@ -214,8 +226,11 @@ export function Backgammon() {
 
     return (
         <div className="backgammon-page">
-            {turn} to move
-            {dice}
+            <h1>{errorMessage}</h1>
+            <h2>{turn} to move</h2>
+            <h3>
+                {dice[0]}, {dice[1]}
+            </h3>
             <Prison prisons={[blackPrison, whitePrison]} />
             <div className="board">
                 {topHalfBoard.map((square) => (
@@ -223,6 +238,7 @@ export function Backgammon() {
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
+                        dice={dice}
                     />
                 ))}
             </div>
@@ -232,6 +248,7 @@ export function Backgammon() {
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
+                        dice={dice}
                     />
                 ))}
             </div>
