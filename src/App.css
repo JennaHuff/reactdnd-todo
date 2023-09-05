@@ -48,7 +48,8 @@
     height: 30vh;
     flex-flow: row-reverse;
 }
-.board2 {
+
+.board:nth-child(2n) {
     flex-flow: row;
 }
 
