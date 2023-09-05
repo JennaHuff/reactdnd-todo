@@ -135,13 +135,18 @@ function Prison({ prisons }: { prisons: [number, number] }) {
 enum GameActionKind {
     ROLL = "ROLL",
     USE_DICE = "USE_DICE",
-    EMPRISON_WHITE_PIECE = "EMPRISON_WHITE_PIECE",
-    EMPRISON_BLACK_PIECE = "EMPRISON_BLACK_PIECE",
+    SEND_TO_JAIL = "SEND_TO_JAIL",
+}
+
+// TODO: make pieceToJail never empty
+interface IPayload {
+    usedDice?: number;
+    pieceToJail?: "white" | "black" | "";
 }
 
 interface GameAction {
     type: GameActionKind;
-    payload?: number;
+    payload: IPayload;
 }
 
 interface IState {
@@ -163,20 +168,22 @@ function reducer(state: IState, action: GameAction) {
                 ],
             };
         case "USE_DICE":
-            if (state.dice.filter((nb) => nb !== action.payload).length === 0) {
+            if (
+                state.dice.filter((nb) => nb !== action.payload.usedDice)
+                    .length === 0
+            ) {
                 console.log("end of turn");
                 turn === "white" ? (turn = "black") : (turn = "white");
             }
             return {
                 ...state,
                 turn,
-                dice: state.dice.filter((nb) => nb !== action.payload),
+                dice: state.dice.filter((nb) => nb !== action.payload.usedDice),
             };
-        case "EMPRISON_WHITE_PIECE":
-            return { ...state, whitePrison: state.whitePrison + 1 };
-        case "EMPRISON_BLACK_PIECE":
-            return { ...state, blackPrison: state.blackPrison + 1 };
-
+        case "SEND_TO_JAIL":
+            return action.payload.pieceToJail === "white"
+                ? { ...state, whitePrison: state.whitePrison + 1 }
+                : { ...state, blackPrison: state.blackPrison + 1 };
         default:
             throw new Error(action.type + "est une action type invalide");
     }
@@ -191,12 +198,6 @@ export function Backgammon() {
     });
     const [board, setBoard] = useState(initBoard());
     const [errorMessage, setErrorMessage] = useState("");
-
-    function sendToJail(board: ISquare[], endSquare: number) {
-        board[endSquare].color === "black"
-            ? dispatch({ type: GameActionKind.EMPRISON_BLACK_PIECE })
-            : dispatch({ type: GameActionKind.EMPRISON_WHITE_PIECE });
-    }
 
     function handleDrop(startSquare: number, endSquare: number) {
         if (startSquare === endSquare) {
@@ -225,7 +226,7 @@ export function Backgammon() {
 
             dispatch({
                 type: GameActionKind.USE_DICE,
-                payload: Math.abs(endSquare - startSquare),
+                payload: { usedDice: Math.abs(endSquare - startSquare) },
             });
         } else {
             console.log("illegal move");
@@ -244,7 +245,10 @@ export function Backgammon() {
                 }
                 if (square.id === endSquare) {
                     if (moveIsACapture(board, startSquare, endSquare)) {
-                        sendToJail(board, endSquare);
+                        dispatch({
+                            type: GameActionKind.SEND_TO_JAIL,
+                            payload: { pieceToJail: board[endSquare].color },
+                        });
                         return {
                             ...square,
                             // in case of a capture, only the color of the pawn changes
@@ -269,7 +273,11 @@ export function Backgammon() {
 
     return (
         <div className="backgammon-page">
-            <button onClick={() => dispatch({ type: GameActionKind.ROLL })}>
+            <button
+                onClick={() =>
+                    dispatch({ type: GameActionKind.ROLL, payload: {} })
+                }
+            >
                 Roll
             </button>
             <h1>{errorMessage}</h1>
