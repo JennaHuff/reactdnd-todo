@@ -1,4 +1,4 @@
-To do: addtask and addlist in forms.tsx are almost identical, a single component could suffice
+TODO: MOVE_PIECE in reducer doesn't work
 
 # React + TypeScript + Vite
 

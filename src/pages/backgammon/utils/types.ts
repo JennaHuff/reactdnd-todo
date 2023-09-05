@@ -6,7 +6,6 @@ export enum GameActionKind {
     SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
 }
 
-// TODO: make pieceToJail never empty
 interface IPayload {
     usedDice?: number;
     pieceToJail?: "white" | "black" | "";
