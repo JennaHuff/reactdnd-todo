@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
 interface ISquare {
@@ -122,28 +122,80 @@ function moveIsACapture(
 }
 
 function Prison({ prisons }: { prisons: [number, number] }) {
-    const [blackPrison, whitePrison] = prisons;
+    const [whitePrison, blackPrison] = prisons;
     return (
         <>
-            <span>blackprison: {blackPrison}</span>
-            <br />
             <span>whiteprison: {whitePrison}</span>
+            <br />
+            <span>blackprison: {blackPrison}</span>
         </>
     );
 }
 
+enum GameActionKind {
+    ROLL = "ROLL",
+    USE_DICE = "USE_DICE",
+    EMPRISON_WHITE_PIECE = "EMPRISON_WHITE_PIECE",
+    EMPRISON_BLACK_PIECE = "EMPRISON_BLACK_PIECE",
+}
+
+interface GameAction {
+    type: GameActionKind;
+    payload?: number;
+}
+
+interface IState {
+    turn: "white" | "black";
+    dice: number[];
+    whitePrison: number;
+    blackPrison: number;
+}
+
+function reducer(state: IState, action: GameAction) {
+    let turn = state.turn;
+    switch (action.type) {
+        case "ROLL":
+            return {
+                ...state,
+                dice: [
+                    Math.floor(Math.random() * (6 - 1) + 1),
+                    Math.floor(Math.random() * (6 - 1) + 1),
+                ],
+            };
+        case "USE_DICE":
+            if (state.dice.filter((nb) => nb !== action.payload).length === 0) {
+                console.log("end of turn");
+                turn === "white" ? (turn = "black") : (turn = "white");
+            }
+            return {
+                ...state,
+                turn,
+                dice: state.dice.filter((nb) => nb !== action.payload),
+            };
+        case "EMPRISON_WHITE_PIECE":
+            return { ...state, whitePrison: state.whitePrison + 1 };
+        case "EMPRISON_BLACK_PIECE":
+            return { ...state, blackPrison: state.blackPrison + 1 };
+
+        default:
+            throw new Error(action.type + "est une action type invalide");
+    }
+}
+
 export function Backgammon() {
-    const [turn, setTurn] = useState("white");
-    const [dice, setDice] = useState([8, 2]);
+    const [gameReducer, dispatch] = useReducer(reducer, {
+        turn: "white",
+        dice: [7, 2],
+        whitePrison: 0,
+        blackPrison: 0,
+    });
     const [board, setBoard] = useState(initBoard());
-    const [whitePrison, setWhitePrison] = useState(0);
-    const [blackPrison, setBlackPrison] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
 
     function sendToJail(board: ISquare[], endSquare: number) {
         board[endSquare].color === "black"
-            ? setBlackPrison((value) => value + 1)
-            : setWhitePrison((value) => value + 1);
+            ? dispatch({ type: GameActionKind.EMPRISON_BLACK_PIECE })
+            : dispatch({ type: GameActionKind.EMPRISON_WHITE_PIECE });
     }
 
     function handleDrop(startSquare: number, endSquare: number) {
@@ -153,28 +205,27 @@ export function Backgammon() {
         if (squareIsBlocked(board, startSquare, endSquare)) {
             return;
         }
-        if (board[startSquare].color !== turn) {
+        if (board[startSquare].color !== gameReducer.turn) {
             console.log("it's not your turn");
             setErrorMessage("it's not your turn");
             return;
         }
-        if (startSquare > endSquare && turn === "white") {
+        if (startSquare > endSquare && gameReducer.turn === "white") {
             console.log("you can only move forward, white");
             setErrorMessage("you can only move forward, white");
             return;
         }
-        if (startSquare < endSquare && turn === "black") {
+        if (startSquare < endSquare && gameReducer.turn === "black") {
             console.log("you can only move forward, black");
             setErrorMessage("you can only move forward, black");
             return;
         }
-        if (dice.includes(Math.abs(endSquare - startSquare))) {
+        if (gameReducer.dice.includes(Math.abs(endSquare - startSquare))) {
             setErrorMessage("good move!");
-            setDice((dice) => {
-                console.log(dice);
-                return dice.filter(
-                    (nb) => nb !== Math.abs(endSquare - startSquare)
-                );
+
+            dispatch({
+                type: GameActionKind.USE_DICE,
+                payload: Math.abs(endSquare - startSquare),
             });
         } else {
             console.log("illegal move");
@@ -210,14 +261,6 @@ export function Backgammon() {
                 return square;
             })
         );
-        if (dice.length === 1) {
-            console.log("end of turn");
-            turn === "white" ? setTurn("black") : setTurn("white");
-            setDice([
-                Math.floor(Math.random() * (6 - 1) + 1),
-                Math.floor(Math.random() * (6 - 1) + 1),
-            ]);
-        }
         return;
     }
 
@@ -226,19 +269,24 @@ export function Backgammon() {
 
     return (
         <div className="backgammon-page">
+            <button onClick={() => dispatch({ type: GameActionKind.ROLL })}>
+                Roll
+            </button>
             <h1>{errorMessage}</h1>
-            <h2>{turn} to move</h2>
+            <h2>{gameReducer.turn} to move</h2>
             <h3>
-                {dice[0]}, {dice[1]}
+                {gameReducer.dice[0]}, {gameReducer.dice[1]}
             </h3>
-            <Prison prisons={[blackPrison, whitePrison]} />
-            <div className="board">
+            <Prison
+                prisons={[gameReducer.whitePrison, gameReducer.blackPrison]}
+            />
+            <div id="board1" className="board">
                 {topHalfBoard.map((square) => (
                     <Square
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
-                        dice={dice}
+                        dice={gameReducer.dice}
                     />
                 ))}
             </div>
@@ -248,7 +296,7 @@ export function Backgammon() {
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
-                        dice={dice}
+                        dice={gameReducer.dice}
                     />
                 ))}
             </div>
