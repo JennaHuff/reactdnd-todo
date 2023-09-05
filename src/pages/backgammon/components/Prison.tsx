@@ -1,9 +1,9 @@
-import { IState } from "./utils/types";
+import { IState } from "../utils/types";
 
-export function Prison({ gameReducer }: { gameReducer: IState }) {
+export function Prison({ gameState }: { gameState: IState }) {
     const [whitePrison, blackPrison] = [
-        gameReducer.whitePrison,
-        gameReducer.blackPrison,
+        gameState.whitePrison,
+        gameState.blackPrison,
     ];
     return (
         <>

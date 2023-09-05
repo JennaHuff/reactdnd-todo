@@ -1,4 +1,4 @@
-import { ISquare } from "./utils/types";
+import { ISquare } from "../utils/types";
 
 export function squareIsBlocked(
     board: ISquare[],

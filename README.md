@@ -1,4 +1,6 @@
-TODO: MOVE_PIECE in reducer doesn't work
+TODO:
+MOVE_PIECE in reducer doesn't work
+squares should not be highlighted if a piece cannot move to them, eg: squareIsBlocked
 
 # React + TypeScript + Vite
 

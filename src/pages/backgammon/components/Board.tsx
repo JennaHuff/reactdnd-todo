@@ -1,15 +1,15 @@
-import { IState } from "./utils/types";
-import { Square } from "./BackgammonPage";
+import { IState } from "../utils/types";
+import { Square } from "./Square";
 
 export function Board({
-    gameReducer,
+    gameState,
     handleDrop,
 }: {
-    gameReducer: IState;
+    gameState: IState;
     handleDrop: (startSquare: number, endSquare: number) => void;
 }) {
-    const topHalfBoard = gameReducer.board.slice(0, 12);
-    const bottomHalfBoard = gameReducer.board.slice(12, 24);
+    const topHalfBoard = gameState.board.slice(0, 12);
+    const bottomHalfBoard = gameState.board.slice(12, 24);
 
     return (
         <>
@@ -19,7 +19,7 @@ export function Board({
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
-                        gameReducer={gameReducer}
+                        gameState={gameState}
                     />
                 ))}
             </div>
@@ -29,7 +29,7 @@ export function Board({
                         key={square.id}
                         square={square}
                         handleDrop={handleDrop}
-                        gameReducer={gameReducer}
+                        gameState={gameState}
                     />
                 ))}
             </div>

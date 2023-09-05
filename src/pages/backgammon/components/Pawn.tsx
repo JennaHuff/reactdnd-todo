@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-import { ISquare } from "./utils/types";
+import { ISquare } from "../utils/types";
 
 export function Pawn({ square }: { square: ISquare }) {
     // const svgSize = "100%";

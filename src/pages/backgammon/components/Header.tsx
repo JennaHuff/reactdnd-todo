@@ -1,4 +1,4 @@
-import { GameAction, GameActionKind, IState } from "./utils/types";
+import { GameAction, GameActionKind, IState } from "../utils/types";
 
 const DiceImages = [
     "public/dice_svg/dice1.svg",
@@ -10,10 +10,10 @@ const DiceImages = [
 ];
 
 export function Header({
-    gameReducer,
+    gameState,
     dispatch,
 }: {
-    gameReducer: IState;
+    gameState: IState;
     dispatch: React.Dispatch<GameAction>;
 }) {
     return (
@@ -25,30 +25,30 @@ export function Header({
             >
                 Roll
             </button>
-            <h1>{gameReducer.errorMessage}</h1>
-            <h2>{gameReducer.turn} to move</h2>
+            <h1>{gameState.errorMessage}</h1>
+            <h2>{gameState.turn} to move</h2>
             <h3>
-                {gameReducer.dice.length > 0 ? (
+                {gameState.dice.length > 0 ? (
                     <>
-                        {gameReducer.dice[0] && (
+                        {gameState.dice[0] && (
                             <img
-                                src={DiceImages[gameReducer.dice[0] - 1]}
-                                alt={gameReducer.dice[0].toString()}
+                                src={DiceImages[gameState.dice[0] - 1]}
+                                alt={gameState.dice[0].toString()}
                                 height="60px"
                                 width="60px"
                             />
                         )}
-                        {gameReducer.dice[1] && (
+                        {gameState.dice[1] && (
                             <img
-                                src={DiceImages[gameReducer.dice[1] - 1]}
-                                alt={gameReducer.dice[1].toString()}
+                                src={DiceImages[gameState.dice[1] - 1]}
+                                alt={gameState.dice[1].toString()}
                                 height="60px"
                                 width="60px"
                             />
                         )}
                     </>
                 ) : (
-                    `please roll, ${gameReducer.turn}`
+                    `please roll, ${gameState.turn}`
                 )}
             </h3>
         </div>
