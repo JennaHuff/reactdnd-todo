@@ -1,3 +1,8 @@
+export type GameContextType = {
+    gameState: IState;
+    dispatch: React.Dispatch<GameAction>;
+};
+
 export enum GameActionKind {
     ROLL = "ROLL",
     USE_DICE = "USE_DICE",

@@ -46,11 +46,11 @@
 .board {
     display: flex;
     height: 30vh;
-    flex-flow: row-reverse;
+    flex-flow: row;
 }
 
 .board:nth-child(2n) {
-    flex-flow: row;
+    flex-flow: row-reverse;
 }
 
 .white {

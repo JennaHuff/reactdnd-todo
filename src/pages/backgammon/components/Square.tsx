@@ -1,20 +1,15 @@
 import { useDrop } from "react-dnd";
-import { ISquare, IState } from "../utils/types";
+import { ISquare } from "../utils/types";
 import { Pawn } from "./Pawn";
+import { handleDrop } from "../functions/handleDrop";
+import { useGame } from "../functions/useGame";
 
-export function Square({
-    square,
-    handleDrop,
-    gameState,
-}: {
-    square: ISquare;
-    handleDrop(startSquare: number, endSquare: number): void;
-    gameState: IState;
-}) {
+export function Square({ square }: { square: ISquare }) {
+    const { gameState, dispatch } = useGame();
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: "pawn",
         drop: (item: ISquare) => {
-            handleDrop(item.id, square.id);
+            handleDrop(gameState, dispatch, item.id, square.id);
         },
         canDrop: (item) => {
             const distance = Math.abs(square.id - item.id);

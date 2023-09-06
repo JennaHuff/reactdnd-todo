@@ -1,4 +1,4 @@
-import { GameAction, IState } from "./utils/types";
+import { IState, GameAction } from "../utils/types";
 
 export function reducer(state: IState, action: GameAction): IState {
     let turn = state.turn;

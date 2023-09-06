@@ -1,4 +1,5 @@
-import { GameAction, GameActionKind, IState } from "../utils/types";
+import { useGame } from "../functions/useGame";
+import { GameActionKind } from "../utils/types";
 
 const DiceImages = [
     "public/dice_svg/dice1.svg",
@@ -9,13 +10,9 @@ const DiceImages = [
     "public/dice_svg/dice6.svg",
 ];
 
-export function Header({
-    gameState,
-    dispatch,
-}: {
-    gameState: IState;
-    dispatch: React.Dispatch<GameAction>;
-}) {
+export function Header() {
+    const { gameState, dispatch } = useGame();
+
     return (
         <div>
             <button

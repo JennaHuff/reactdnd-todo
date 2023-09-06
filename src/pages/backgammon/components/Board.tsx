@@ -1,13 +1,8 @@
-import { IState } from "../utils/types";
+import { useGame } from "../functions/useGame";
 import { Square } from "./Square";
 
-export function Board({
-    gameState,
-    handleDrop,
-}: {
-    gameState: IState;
-    handleDrop: (startSquare: number, endSquare: number) => void;
-}) {
+export function Board() {
+    const { gameState } = useGame();
     const topHalfBoard = gameState.board.slice(0, 12);
     const bottomHalfBoard = gameState.board.slice(12, 24);
 
@@ -15,22 +10,12 @@ export function Board({
         <>
             <div className="board">
                 {topHalfBoard.map((square) => (
-                    <Square
-                        key={square.id}
-                        square={square}
-                        handleDrop={handleDrop}
-                        gameState={gameState}
-                    />
+                    <Square key={square.id} square={square} />
                 ))}
             </div>
             <div className="board">
                 {bottomHalfBoard.map((square) => (
-                    <Square
-                        key={square.id}
-                        square={square}
-                        handleDrop={handleDrop}
-                        gameState={gameState}
-                    />
+                    <Square key={square.id} square={square} />
                 ))}
             </div>
         </>
