@@ -39,10 +39,6 @@
     opacity: 1;
 }
 
-.pawn {
-    height: fit-content;
-}
-
 .board {
     display: flex;
     height: 30vh;
