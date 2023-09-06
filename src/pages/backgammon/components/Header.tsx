@@ -2,12 +2,12 @@ import { useGame } from "../functions/useGame";
 import { GameActionKind } from "../utils/types";
 
 const DiceImages = [
-    "public/dice1.svg",
-    "public/dice2.svg",
-    "public/dice3.svg",
-    "public/dice4.svg",
-    "public/dice5.svg",
-    "public/dice6.svg",
+    "/dice1.svg",
+    "/dice2.svg",
+    "/dice3.svg",
+    "/dice4.svg",
+    "/dice5.svg",
+    "/dice6.svg",
 ];
 
 export function Header() {
