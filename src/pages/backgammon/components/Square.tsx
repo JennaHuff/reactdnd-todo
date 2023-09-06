@@ -43,8 +43,11 @@ export function Square({ square }: { square: ISquare }) {
             className={`square ${canDrop && "can-drop"} ${isOver && "is-over"}`}
             ref={drop}
         >
-            Id: {square.id}
-            {pawns.map((pawn) => pawn)}
+            {/* Id: {square.id} */}
+            {pawns
+                .slice(0, 5) /*display a maximum of 5 pawns on a square*/
+                .map((pawn) => pawn)}
+            {pawns.length > 5 && `+${pawns.length - 5}`}
         </div>
     );
 }
