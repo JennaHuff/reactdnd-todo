@@ -1,7 +1,14 @@
 import { IState, GameAction } from "../utils/types";
 
-export function reducer(state: IState, action: GameAction): IState {
+export function gameReducer(state: IState, action: GameAction): IState {
     let turn = state.turn;
+    const diceLeftToPlay = [...state.dice];
+    const dicePlayed = diceLeftToPlay.splice(
+        state.dice.indexOf(action.payload.usedDice!),
+        1
+    );
+    console.log("dicePlayed", dicePlayed);
+    console.log("diceLeftToPlay", diceLeftToPlay);
     switch (action.type) {
         case "MOVE_PIECE":
             if (!action.payload.move) {
@@ -31,29 +38,35 @@ export function reducer(state: IState, action: GameAction): IState {
             };
         case "ROLL":
             if (!state.playerAlreadyRolled) {
+                const dice1 = Math.floor(Math.random() * (7 - 1) + 1);
+                const dice2 = Math.floor(Math.random() * (7 - 1) + 1);
                 return {
                     ...state,
                     playerAlreadyRolled: true,
-                    dice: [
-                        Math.floor(Math.random() * (6 - 1) + 1),
-                        Math.floor(Math.random() * (6 - 1) + 1),
-                    ],
+                    dice:
+                        dice1 === dice2
+                            ? [dice1, dice1, dice1, dice1]
+                            : [dice1, dice2],
                 };
             }
             return { ...state, errorMessage: "You have already rolled!" };
         case "USE_DICE":
-            if (
-                state.dice.filter((nb) => nb !== action.payload.usedDice)
-                    .length === 0
-            ) {
+            if (diceLeftToPlay.length === 0) {
                 state.turn === "white" ? (turn = "black") : (turn = "white");
             }
             return {
                 ...state,
                 turn,
                 playerAlreadyRolled: false,
-                dice: state.dice.filter((nb) => nb !== action.payload.usedDice),
+                dice: diceLeftToPlay,
             };
+        case "CANCEL":
+            return {
+                ...state,
+                dice: [...diceLeftToPlay, ...dicePlayed],
+                usedDice: [],
+            };
+
         case "SEND_TO_JAIL":
             return action.payload.pieceToJail === "white"
                 ? { ...state, whitePrison: state.whitePrison + 1 }

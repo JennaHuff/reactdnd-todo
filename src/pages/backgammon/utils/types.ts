@@ -6,6 +6,7 @@ export type GameContextType = {
 export enum GameActionKind {
     ROLL = "ROLL",
     USE_DICE = "USE_DICE",
+    CANCEL = "CANCEL",
     SEND_TO_JAIL = "SEND_TO_JAIL",
     MOVE_PIECE = "MOVE_PIECE",
     SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
@@ -27,6 +28,7 @@ export interface IState {
     board: ISquare[];
     turn: "white" | "black";
     dice: number[];
+    usedDice: number[];
     whitePrison: number;
     blackPrison: number;
     errorMessage: string;

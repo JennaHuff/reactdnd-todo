@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useReducer } from "react";
-import { reducer } from "./reducer";
+import { gameReducer } from "./gameReducer";
 import { GameContextType } from "../utils/types";
 import { initialGameState } from "../utils/constants";
 
@@ -12,7 +12,7 @@ interface GameProviderProps {
 }
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-    const [gameState, dispatch] = useReducer(reducer, initialGameState);
+    const [gameState, dispatch] = useReducer(gameReducer, initialGameState);
 
     return (
         <GameContext.Provider value={{ gameState, dispatch }}>
