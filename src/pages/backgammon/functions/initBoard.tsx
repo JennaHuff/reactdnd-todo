@@ -3,6 +3,7 @@ import { ISquare } from "../utils/types";
 export function initBoard(): ISquare[] {
     const board: ISquare[] = [];
     for (let i = 0; i < 24; i++) {
+        // board.push({ id: i, pawns: 1, color: i % 2 ? "white" : "black" });
         board.push({ id: i, pawns: 0, color: "" });
     }
 

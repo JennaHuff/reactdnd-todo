@@ -1,7 +1,7 @@
 import { initBoard } from "../functions/initBoard";
-import { IState } from "./types";
+import { IGameState } from "./types";
 
-export const initialGameState: IState = {
+export const initialGameState: IGameState = {
     board: initBoard(),
     turn: "white",
     dice: [],

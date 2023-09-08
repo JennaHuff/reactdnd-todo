@@ -1,5 +1,5 @@
 export type GameContextType = {
-    gameState: IState;
+    gameState: IGameState;
     dispatch: React.Dispatch<GameAction>;
 };
 
@@ -24,7 +24,7 @@ export interface GameAction {
     payload: IPayload;
 }
 
-export interface IState {
+export interface IGameState {
     board: ISquare[];
     turn: "white" | "black";
     dice: number[];

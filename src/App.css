@@ -15,42 +15,6 @@
     padding-bottom: 8vw;
 }
 
-.backgammon-page {
-    min-height: 100svh;
-    display: grid;
-    place-content: center;
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.square {
-    display: grid;
-    place-items: center;
-    grid-template-rows: repeat(5, 1fr);
-
-    padding: 3px;
-    overflow: scroll;
-    flex-direction: column;
-    width: calc(80vw / 12);
-    border-right: 5px dotted black;
-    border-bottom: 5px dotted black;
-}
-
-.board:last-of-type > .square:nth-last-child(1) {
-    border-right: none;
-}
-.board:last-of-type > .square {
-    border-bottom: none;
-}
-
-.board:nth-child(2n) > .square:nth-child(1) {
-    border-right: none;
-}
-
 .can-drop {
     background-color: yellow;
     opacity: 0.5;
@@ -60,30 +24,6 @@
 .is-over {
     opacity: 1;
 }
-
-.board {
-    display: flex;
-    flex-flow: row;
-    border-left: 10px solid black;
-    border-right: 10px solid black;
-}
-
-.board:last-of-type {
-    border-bottom: 10px solid black;
-}
-
-.board:nth-child(2n) {
-    border-top: 10px solid black;
-    flex-flow: row-reverse;
-}
-
-.white {
-    background-color: white;
-}
-.black {
-    background-color: black;
-}
-
 .clickable {
     user-select: none;
     cursor: pointer;

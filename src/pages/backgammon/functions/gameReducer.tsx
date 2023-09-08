@@ -1,6 +1,6 @@
-import { IState, GameAction } from "../utils/types";
+import { IGameState, GameAction } from "../utils/types";
 
-export function gameReducer(state: IState, action: GameAction): IState {
+export function gameReducer(state: IGameState, action: GameAction): IGameState {
     let turn = state.turn;
     const diceLeftToPlay = [...state.dice];
     const dicePlayed = diceLeftToPlay.splice(

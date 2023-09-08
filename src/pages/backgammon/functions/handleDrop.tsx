@@ -1,9 +1,9 @@
-import { GameAction, GameActionKind, IState } from "../utils/types";
+import { GameAction, GameActionKind, IGameState } from "../utils/types";
 import { moveIsACapture } from "./moveIsACapture";
 import { squareIsBlocked } from "./squareIsBlocked";
 
 export function handleDrop(
-    gameState: IState,
+    gameState: IGameState,
     dispatch: React.Dispatch<GameAction>,
     startSquare: number,
     endSquare: number
