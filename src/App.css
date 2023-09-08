@@ -36,8 +36,8 @@
     overflow: scroll;
     flex-direction: column;
     width: calc(80vw / 12);
-    border-right: 2px dashed black;
-    border-bottom: 2px dashed black;
+    border-right: 5px dotted black;
+    border-bottom: 5px dotted black;
 }
 
 .board:last-of-type > .square:nth-last-child(1) {

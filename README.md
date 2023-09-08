@@ -3,7 +3,7 @@ TODO:
 -if dice are the same, both get used
 -find out how to put a folder inside public for vite images
 -pawns should be bg images, not svg in the code (perhaps)
--MOVE_PIECE in reducer doesn't work
+-MOVE_PIECE in gameReducer doesn't work
 -squares should not be highlighted if a piece cannot move to them, eg: squareIsBlocked
 
 # React + TypeScript + Vite
