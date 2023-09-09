@@ -13,10 +13,10 @@ export enum GameActionKind {
 }
 
 interface IPayload {
-    usedDice?: number;
     pieceToJail?: "white" | "black" | "";
     newErrorMessage?: string;
     move?: { start: number; destination: number };
+    usedDice?: number;
 }
 
 export interface GameAction {
@@ -27,8 +27,8 @@ export interface GameAction {
 export interface IGameState {
     board: ISquare[];
     turn: "white" | "black";
-    dice: number[];
-    usedDice: number[];
+    // dice: number[];
+    dice: { left: number[]; used: number[] };
     whitePrison: number;
     blackPrison: number;
     errorMessage: string;

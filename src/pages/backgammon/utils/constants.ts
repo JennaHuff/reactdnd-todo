@@ -4,8 +4,7 @@ import { IGameState } from "./types";
 export const initialGameState: IGameState = {
     board: initBoard(),
     turn: "white",
-    dice: [],
-    usedDice: [],
+    dice: { left: [], used: [] },
     whitePrison: 0,
     blackPrison: 0,
     errorMessage: "",

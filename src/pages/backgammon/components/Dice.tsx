@@ -11,10 +11,11 @@ const DiceImages = [
 ];
 export function Dice() {
     const { gameState, dispatch } = useGame();
-    return gameState.dice.length ? (
+    return gameState.dice.left.length ? (
         <div>
-            {gameState.dice.map((dice) => (
+            {gameState.dice.left.map((dice, index) => (
                 <img
+                    key={index}
                     src={DiceImages[dice - 1]}
                     alt={dice.toString()}
                     height="60px"
@@ -29,6 +30,7 @@ export function Dice() {
                 onClick={() =>
                     dispatch({ type: GameActionKind.ROLL, payload: {} })
                 }
+                id="dice-roll-button"
             >
                 <img src="/roll_dice.svg" alt="roll dice!" />
                 <img src="/roll_dice.svg" alt="roll dice!" />
