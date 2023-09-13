@@ -9,22 +9,16 @@ export function handleDrop(
     endSquare: number
 ) {
     if (squareIsBlocked(gameState.board, startSquare, endSquare)) return;
-    // if (gameState.board[startSquare].color !== gameState.turn) {
-    //     dispatch({
-    //         type: GameActionKind.SET_ERROR_MESSAGE,
-    //         payload: { newErrorMessage: "it's not your turn" },
-    //     });
-    //     return;
-    // }
+
     if (moveIsACapture(gameState.board, startSquare, endSquare)) {
         dispatch({
             type: GameActionKind.SEND_TO_JAIL,
             payload: {
                 pieceToJail: gameState.board[endSquare].color,
+                move: { start: startSquare, destination: endSquare },
             },
         });
     }
-
     dispatch({
         type: GameActionKind.MOVE_PIECE,
         payload: {

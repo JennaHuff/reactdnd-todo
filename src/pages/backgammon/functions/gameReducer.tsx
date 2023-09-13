@@ -2,20 +2,48 @@ import { IGameState, GameAction } from "../utils/types";
 
 export function gameReducer(state: IGameState, action: GameAction): IGameState {
     let turn = state.turn;
-    const diceLeftToPlay = [...state.dice];
-    const dicePlayed = diceLeftToPlay.splice(
-        state.dice.indexOf(action.payload.usedDice!),
-        1
-    );
-    console.log("dicePlayed", dicePlayed);
-    console.log("diceLeftToPlay", diceLeftToPlay);
+    const playerAlreadyRolled = turn !== state.turn;
+    const diceLeft = [...state.dice.left];
+
     switch (action.type) {
         case "MOVE_PIECE":
             if (!action.payload.move) {
                 return { ...state };
             }
+            // if white prison is not empty
+            if (
+                state.board[0].pawns !== 0 &&
+                action.payload.move.start !== 0 &&
+                turn === "white"
+            ) {
+                return { ...state };
+            }
+            // if black prison is not empty
+            if (
+                state.board[25].pawns !== 0 &&
+                action.payload.move.start !== 25 &&
+                turn === "black"
+            ) {
+                return { ...state };
+            }
+            // use dice
+            diceLeft.splice(
+                state.dice.left.indexOf(
+                    Math.abs(
+                        action.payload.move?.start -
+                            action.payload.move?.destination
+                    )
+                ),
+                1
+            );
+            // if both dice have been used, change turn
+            if (diceLeft.length === 0) {
+                state.turn === "white" ? (turn = "black") : (turn = "white");
+            }
             return {
                 ...state,
+                turn,
+                playerAlreadyRolled,
                 board: state.board.map((square) => {
                     if (square.id === action.payload.move?.start) {
                         return {
@@ -27,7 +55,7 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
                     if (square.id === action.payload.move?.destination) {
                         return {
                             ...square,
-                            pawns: square.pawns + 1,
+                            pawns: square.pawns + 1, // add a pawn to destination
                             color: state.board[action.payload.move!.start]
                                 .color,
                         };
@@ -35,6 +63,16 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
                         return { ...square };
                     }
                 }),
+                dice: {
+                    left: diceLeft,
+                    used: [
+                        ...state.dice.used,
+                        Math.abs(
+                            action.payload.move?.start -
+                                action.payload.move?.destination
+                        ),
+                    ],
+                },
             };
         case "ROLL":
             if (!state.playerAlreadyRolled) {
@@ -45,40 +83,51 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
                     playerAlreadyRolled: true,
                     dice:
                         dice1 === dice2
-                            ? [dice1, dice1, dice1, dice1]
-                            : [dice1, dice2],
-                };
-            }
-            return { ...state, errorMessage: "You have already rolled!" };
-        case "USE_DICE":
-            if (diceLeftToPlay.length === 0) {
-                state.turn === "white" ? (turn = "black") : (turn = "white");
-            }
-            return {
-                ...state,
-                turn,
-                playerAlreadyRolled: false,
-                dice: diceLeftToPlay,
-            };
-        case "CANCEL":
-            return {
-                ...state,
-                dice: [...diceLeftToPlay, ...dicePlayed],
-                usedDice: [],
-            };
-
-        case "SEND_TO_JAIL":
-            return action.payload.pieceToJail === "white"
-                ? { ...state, whitePrison: state.whitePrison + 1 }
-                : { ...state, blackPrison: state.blackPrison + 1 };
-        case "SET_ERROR_MESSAGE":
-            if (action.payload.newErrorMessage) {
-                return {
-                    ...state,
-                    errorMessage: action.payload.newErrorMessage,
+                            ? {
+                                  ...state.dice,
+                                  left: [dice1, dice1, dice1, dice1],
+                              }
+                            : { ...state.dice, left: [dice1, dice2] },
                 };
             }
             return { ...state };
+
+        case "CANCEL":
+            return {
+                ...state,
+                dice: {
+                    left: [...state.dice.left, ...state.dice.used],
+                    used: [],
+                },
+            };
+
+        case "SEND_TO_JAIL":
+            if (action.payload.pieceToJail === "white") {
+                return {
+                    ...state,
+                    board: state.board.map((square) => {
+                        if (square.id === 0)
+                            return { ...square, pawns: square.pawns + 1 };
+                        if (square.id === action.payload.move?.destination)
+                            return { ...square, pawns: square.pawns - 1 };
+                        return { ...square };
+                    }),
+                };
+            }
+            if (action.payload.pieceToJail === "black") {
+                return {
+                    ...state,
+                    board: state.board.map((square) => {
+                        if (square.id === 25)
+                            return { ...square, pawns: square.pawns + 1 };
+                        if (square.id === action.payload.move?.destination)
+                            return { ...square, pawns: square.pawns - 1 };
+                        return { ...square };
+                    }),
+                };
+            }
+            return { ...state };
+
         default:
             throw new Error(action.type + " is an invalid action type");
     }

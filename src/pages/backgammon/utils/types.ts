@@ -8,12 +8,10 @@ export enum GameActionKind {
     CANCEL = "CANCEL",
     SEND_TO_JAIL = "SEND_TO_JAIL",
     MOVE_PIECE = "MOVE_PIECE",
-    SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE",
 }
 
 interface IPayload {
     pieceToJail?: "white" | "black" | "";
-    newErrorMessage?: string;
     move?: { start: number; destination: number };
     usedDice?: number;
 }
@@ -27,9 +25,6 @@ export interface IGameState {
     board: ISquare[];
     turn: "white" | "black";
     dice: { left: number[]; used: number[] };
-    whitePrison: number;
-    blackPrison: number;
-    errorMessage: string;
     playerAlreadyRolled: boolean;
 }
 
