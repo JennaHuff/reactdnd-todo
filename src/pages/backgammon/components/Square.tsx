@@ -16,7 +16,7 @@ export function Square({ square }: { square: ISquare }) {
             const whiteToPlay = gameState.turn === "white";
             const blackToPlay = gameState.turn === "black";
             if (item.color !== gameState.turn) return false;
-            if (gameState.dice.includes(distance)) {
+            if (gameState.dice.left.includes(distance)) {
                 if (
                     (whiteToPlay && square.id > item.id) ||
                     (blackToPlay && square.id < item.id)

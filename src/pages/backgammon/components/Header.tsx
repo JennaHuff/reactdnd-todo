@@ -7,16 +7,15 @@ export function Header() {
 
     return (
         <div className="header">
-            <h1>{gameState.errorMessage}</h1>
-            <h2>{gameState.turn} to move</h2>
+            <h1 id="turn-indicator">{gameState.turn} to move</h1>
             <Dice />
-            {/* <button
+            <button
                 onClick={() =>
                     dispatch({ type: GameActionKind.CANCEL, payload: {} })
                 }
             >
                 cancel
-            </button> */}
+            </button>
         </div>
     );
 }
