@@ -1,4 +1,15 @@
 TODO:
+
+        // case "CANCEL":
+        //     return {
+        //         ...state,
+        // board === board at the start of turn
+        //         dice: {
+        //             left: [...state.dice.left, ...state.dice.used],
+        //             used: [],
+        //         },
+        //     };
+
 -make piece svg accessible (alt)
 -if dice are the same, both get used
 -find out how to put a folder inside public for vite images

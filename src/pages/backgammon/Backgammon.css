@@ -10,7 +10,6 @@
     grid-template-columns: 1fr 1fr; */
     display: flex;
     justify-content: space-around;
-    /* width: 100%; */
 }
 
 #dice-roll-button {
@@ -22,19 +21,24 @@
 }
 
 .square {
+    background: url("public/triangle.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+
     display: grid;
     place-items: center;
     grid-template-rows: repeat(5, 1fr);
 
     padding: 3px;
     overflow: scroll;
-    flex-direction: column;
     width: calc(80vw / 12);
     border-right: 5px dotted black;
     border-bottom: 5px dotted black;
 }
 
 .board {
+    /* background-color: brown; */
     border-left: 10px solid black;
     border-right: 10px solid black;
     border-bottom: 10px solid black;
@@ -53,7 +57,18 @@
     display: flex;
     flex-flow: row-reverse;
 }
-
 .half-board:last-of-type {
     flex-flow: unset;
+}
+.half-board:last-of-type > .square > :nth-last-child(1) {
+    grid-row: 5 / 5;
+}
+.half-board:last-of-type > .square > :nth-last-child(2) {
+    grid-row: 4 / 4;
+}
+.half-board:last-of-type > .square > :nth-last-child(3) {
+    grid-row: 3 / 3;
+}
+.half-board:last-of-type > .square > :nth-last-child(4) {
+    grid-row: 2 / 2;
 }

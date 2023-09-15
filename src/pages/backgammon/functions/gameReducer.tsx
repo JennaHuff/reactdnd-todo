@@ -30,8 +30,8 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
             diceLeft.splice(
                 state.dice.left.indexOf(
                     Math.abs(
-                        action.payload.move?.start -
-                            action.payload.move?.destination
+                        action.payload.move.start -
+                            action.payload.move.destination
                     )
                 ),
                 1
@@ -74,6 +74,7 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
                     ],
                 },
             };
+
         case "ROLL":
             if (!state.playerAlreadyRolled) {
                 const dice1 = Math.floor(Math.random() * (7 - 1) + 1);
@@ -91,15 +92,6 @@ export function gameReducer(state: IGameState, action: GameAction): IGameState {
                 };
             }
             return { ...state };
-
-        case "CANCEL":
-            return {
-                ...state,
-                dice: {
-                    left: [...state.dice.left, ...state.dice.used],
-                    used: [],
-                },
-            };
 
         case "SEND_TO_JAIL":
             if (action.payload.pieceToJail === "white") {
