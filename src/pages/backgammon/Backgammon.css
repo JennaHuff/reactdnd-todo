@@ -5,9 +5,6 @@
 }
 
 .header {
-    /* display: grid;
-    justify-items: center;
-    grid-template-columns: 1fr 1fr; */
     display: flex;
     justify-content: space-around;
 }
@@ -21,11 +18,6 @@
 }
 
 .square {
-    background: url("public/triangle.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50%;
-
     display: grid;
     place-items: center;
     grid-template-rows: repeat(5, 1fr);
