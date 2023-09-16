@@ -8,6 +8,7 @@ import { LISTS, TASKS } from "./utils/constants";
 import { IItem, IList, ITask } from "./utils/types";
 import { TextInputButton } from "../../components/TextInputButton";
 import styled from "styled-components";
+import "./TodoPage.css";
 
 const StyledHeader = styled.div`
     input {
@@ -72,7 +73,7 @@ export function TodoPage() {
     }
 
     return (
-        <>
+        <div className="todo-page">
             <StyledHeader>
                 <Title />
                 <TextInputButton
@@ -100,6 +101,6 @@ export function TodoPage() {
                     </List>
                 ))}
             </div>
-        </>
+        </div>
     );
 }

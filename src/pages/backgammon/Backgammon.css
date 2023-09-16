@@ -1,20 +1,62 @@
 .backgammon-page {
     min-height: 100svh;
-    display: grid;
-    place-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    padding-inline: 2vw;
+    padding-block: 4vh;
+}
+
+.header-button {
+    width: 100px;
+    height: 100px;
+}
+
+.header-button > img {
+    height: 50px;
+    width: 50px;
+}
+
+.can-drop {
+    background-color: yellow !important;
+    opacity: 0.5;
+}
+.is-over {
+    opacity: 1;
 }
 
 .header {
+    /* border: 2px solid green; */
+    width: 100%;
+    justify-content: space-between;
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap-reverse;
+}
+
+.site-info-header {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.game-info-header {
+    /* border: 2px solid blue; */
+    display: flex;
+    height: fit-content;
+    flex-grow: 1;
+    justify-content: center;
+    gap: 1em;
 }
 
 #dice-roll-button {
-    width: fit-content;
+    border: 2px solid darkslategrey;
+    box-shadow: 5px 5px 0px 0px color-mix(in srgb, brown 50%, transparent);
 }
 
 .prison {
     display: flex;
+    /* transform: translateY(180%); */
 }
 
 .square {
@@ -25,26 +67,40 @@
     padding: 3px;
     overflow: scroll;
     width: calc(80vw / 12);
-    border-right: 5px dotted black;
-    border-bottom: 5px dotted black;
+
+    background-image: url("/public/arrow-light-upside-down.svg");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+.square:nth-child(even) {
+    background-image: url("/public/arrow-dark-upside-down.svg");
+}
+.half-board:last-of-type > .square:nth-child(even) {
+    background-image: url("/public/arrow-dark.svg");
+}
+.half-board:last-of-type > .square:nth-child(odd) {
+    background-image: url("/public/arrow-light.svg");
+}
+
+.half-board:first-of-type > .square:nth-child(7) {
+    border-right: 20px solid black;
+}
+.half-board:last-of-type > .square:nth-child(7) {
+    border-left: 20px solid black;
 }
 
 .board {
-    /* background-color: brown; */
-    border-left: 10px solid black;
-    border-right: 10px solid black;
-    border-bottom: 10px solid black;
-    border-top: 10px solid black;
+    background-color: bisque;
+    display: grid;
+
+    place-content: center;
+    width: fit-content;
+
+    border: 10px solid black;
 }
-.half-board:last-of-type > .square {
-    border-bottom: none;
-}
-.half-board:nth-child(1) > .square:nth-child(1) {
-    border-right: none;
-}
-.half-board:nth-last-child(1) > .square:nth-last-child(1) {
-    border-right: none;
-}
+
 .half-board {
     display: flex;
     flex-flow: row-reverse;

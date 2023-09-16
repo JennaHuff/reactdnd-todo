@@ -29,7 +29,11 @@ export function Pawn({ square }: { square: ISquare }) {
     return (
         <>
             <DragPreviewImage connect={preview} src={SvgPiece.toString()} />
-            <div ref={drag} style={{ transform: "translate(0, 0)" }}>
+            <div
+                ref={drag}
+                className="clickable"
+                style={{ transform: "translate(0, 0)" }}
+            >
                 <SvgPiece color={square.color} />
             </div>
         </>

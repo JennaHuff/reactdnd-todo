@@ -6,8 +6,37 @@ export function Header() {
 
     return (
         <div className="header">
-            <h1 id="turn-indicator">{gameState.turn} to move</h1>
-            <Dice />
+            <div className="game-info-header">
+                <h3 id="turn-indicator">{gameState.turn}'s turn, </h3>
+                <Dice />
+            </div>
+            <div className="site-info-header">
+                <h1>React Backgammon</h1>
+                <div>
+                    <a
+                        href="https://github.com/JennaHuff/DragAndDrop-Test"
+                        target="_blank"
+                    >
+                        <button className="header-button">
+                            <img
+                                src="/public/github_logo.svg"
+                                alt="github repository link"
+                            />
+                        </button>
+                    </a>
+                    <a
+                        href="https://github.com/JennaHuff/DragAndDrop-Test/blob/main/README.md"
+                        target="_blank"
+                    >
+                        <button className="header-button">
+                            <img
+                                src="/public/info_icon.svg"
+                                alt="more information about this site"
+                            />
+                        </button>
+                    </a>
+                </div>
+            </div>
         </div>
     );
 }

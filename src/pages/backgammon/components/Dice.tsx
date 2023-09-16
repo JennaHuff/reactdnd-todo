@@ -25,7 +25,6 @@ export function Dice() {
         </div>
     ) : (
         <>
-            <h3>roll the dice, {gameState.turn}!</h3>
             <button
                 onClick={() =>
                     dispatch({ type: GameActionKind.ROLL, payload: {} })
@@ -35,6 +34,7 @@ export function Dice() {
                 <img src="/roll_dice.svg" alt="roll dice!" />
                 <img src="/roll_dice.svg" alt="roll dice!" />
             </button>
+            <h3>roll the dice!</h3>
         </>
     );
 }
