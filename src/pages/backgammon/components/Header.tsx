@@ -19,7 +19,7 @@ export function Header() {
                     >
                         <button className="header-button">
                             <img
-                                src="/public/github_logo.svg"
+                                src="/github_logo.svg"
                                 alt="github repository link"
                             />
                         </button>
@@ -30,7 +30,7 @@ export function Header() {
                     >
                         <button className="header-button">
                             <img
-                                src="/public/info_icon.svg"
+                                src="/info_icon.svg"
                                 alt="more information about this site"
                             />
                         </button>
