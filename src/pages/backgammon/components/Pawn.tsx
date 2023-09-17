@@ -16,7 +16,6 @@ function SvgPiece({ color }: { color: ISquare["color"] }) {
                 stroke={color === "white" ? "black" : "white"}
                 strokeWidth="10"
             />
-            {/* {`${color} piece`} */}
         </svg>
     );
 }
