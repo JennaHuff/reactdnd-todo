@@ -27,21 +27,21 @@
 }
 
 .header {
-    /* border: 2px solid green; */
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     display: flex;
     flex-wrap: wrap-reverse;
+    gap: 6vw;
 }
 
 .site-info-header {
-    /* border: 2px solid red; */
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .game-info-header {
-    /* border: 2px solid blue; */
     display: flex;
     height: fit-content;
     flex-grow: 1;
@@ -68,20 +68,20 @@
     overflow: scroll;
     width: calc(80vw / 12);
 
-    background-image: url("/public/arrow-light-upside-down.svg");
+    background-image: url("/arrow-light-upside-down.svg");
     background-size: 100% 100%;
     background-position: 50%;
     background-repeat: no-repeat;
 }
 
 .square:nth-child(even) {
-    background-image: url("/public/arrow-dark-upside-down.svg");
+    background-image: url("/arrow-dark-upside-down.svg");
 }
 .half-board:last-of-type > .square:nth-child(even) {
-    background-image: url("/public/arrow-dark.svg");
+    background-image: url("/arrow-dark.svg");
 }
 .half-board:last-of-type > .square:nth-child(odd) {
-    background-image: url("/public/arrow-light.svg");
+    background-image: url("/arrow-light.svg");
 }
 
 .half-board:first-of-type > .square:nth-child(7) {
