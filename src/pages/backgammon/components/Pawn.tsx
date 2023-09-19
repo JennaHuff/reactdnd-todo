@@ -9,9 +9,9 @@ function SvgPiece({ color }: { color: ISquare["color"] }) {
             xmlns="http://www.w3.org/2000/svg"
         >
             <circle
-                cx="50"
-                cy="50"
-                r="50"
+                cy="40"
+                cx="40"
+                r="40"
                 fill={color}
                 stroke={color === "white" ? "black" : "white"}
                 strokeWidth="10"
@@ -19,6 +19,7 @@ function SvgPiece({ color }: { color: ISquare["color"] }) {
         </svg>
     );
 }
+
 export function Pawn({ square }: { square: ISquare }) {
     const [, drag, preview] = useDrag(() => ({
         type: "pawn",

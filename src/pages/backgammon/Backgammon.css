@@ -64,9 +64,10 @@
     place-items: center;
     grid-template-rows: repeat(5, 1fr);
 
-    padding: 3px;
-    overflow: scroll;
+    /* padding: 3px; */
+    overflow-x: hidden;
     width: calc(80vw / 12);
+    max-height: 40vh;
 
     background-image: url("/arrow-light-upside-down.svg");
     background-size: 100% 100%;
@@ -85,10 +86,10 @@
 }
 
 .half-board:first-of-type > .square:nth-child(7) {
-    border-right: 20px solid black;
+    border-right: 1vw solid black;
 }
 .half-board:last-of-type > .square:nth-child(7) {
-    border-left: 20px solid black;
+    border-left: 1vw solid black;
 }
 
 .board {
@@ -96,9 +97,10 @@
     display: grid;
 
     place-content: center;
-    width: fit-content;
+    max-height: 90vh;
+    max-width: 90vw;
 
-    border: 10px solid black;
+    border: 1vw solid black;
 }
 
 .half-board {
