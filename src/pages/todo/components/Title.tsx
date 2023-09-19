@@ -10,25 +10,24 @@ const StyledTitle = styled.div`
     }
     text-align: center;
 
-    color: --text-color;
+    color: white;
     font-weight: bold;
     line-height: 1;
 `;
 
 const StyledLink = styled.a`
-    text-transform: uppercase;
     padding-top: 50px;
     color: lightblue;
 `;
 
 export function Title() {
-    const [titleExists, setTitleExists] = useState(true);
+    const [domElementExists, setDomElementExists] = useState(true);
     const [, drag] = useDrag({
-        type: "title",
-        item: { type: "title", titleExists, setTitleExists },
+        type: "Title",
+        item: { type: "Title", domElementExists, setDomElementExists },
     });
     return (
-        titleExists && (
+        domElementExists && (
             <StyledTitle ref={drag}>
                 <h1>Drag & Drop To-do List</h1>
                 <h2>Trashcan accepts tasks, lists and more</h2>

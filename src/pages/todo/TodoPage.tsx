@@ -18,6 +18,8 @@ const StyledHeader = styled.div`
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin-bottom: 1em;
+    margin-inline: 3em;
 `;
 
 export function TodoPage() {
@@ -69,6 +71,8 @@ export function TodoPage() {
             setTasks((tasks) => [
                 ...tasks.filter((task) => task.id !== item.id),
             ]);
+        } else if (item.type === "Title") {
+            item.setDomElementExists && item.setDomElementExists(false);
         }
     }
 

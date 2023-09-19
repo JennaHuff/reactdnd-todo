@@ -1,7 +1,8 @@
 export interface IItem {
     id: string;
     name: string;
-    type: "List" | "Task";
+    type: "List" | "Task" | "Title";
+    setDomElementExists?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface IList extends IItem {

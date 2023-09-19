@@ -24,7 +24,7 @@ export function Trashcan({
     handleDeleteItem(item: IItem): void;
 }) {
     const [{ isOver, canDrop }, drop] = useDrop({
-        accept: ["Task", "List"],
+        accept: ["Task", "List", "Title"],
         drop: (item: IItem) => {
             handleDeleteItem(item);
         },

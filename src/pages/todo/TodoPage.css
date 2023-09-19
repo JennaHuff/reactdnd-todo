@@ -11,28 +11,35 @@
 }
 
 .todo-page {
-    --bg-color-light: #99ccff;
+    /* --bg-color-light: #99ccff;
     --bg-color-dark: #7c53a5;
     --paper-color: #ffff99;
-    --buttons-color: #ff9999;
-    --text-color: white;
+    --buttons-color: #ff9999; */
+    --bg-color-light: #99ccff;
+    --bg-color-dark: #004b96;
+    --paper-color: #ffff99;
+    --buttons-color: #004b96;
+    --text-color: #002346;
 
     color: var(--text-color);
     min-height: 100svh;
     padding-bottom: 8vw;
-    background-color: #2c96ff;
+    background-color: #006effc7;
+    /* background-color: #2c96ff; */
 }
 
 input {
     background-color: transparent;
-    color: black;
+    color: white;
     font-weight: bold;
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 8px;
 }
 
 button {
     background-color: var(--buttons-color);
+    color: white;
+    /* color: var(--text-color); */
     font-weight: bold;
 }
 

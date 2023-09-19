@@ -14,7 +14,7 @@ const StyledDrop = styled.div`
     align-items: center;
     background-color: var(--paper-color);
     box-shadow: 20px 20px var(--bg-color-dark);
-    border-radius: 5px;
+    border-radius: 8px;
     padding-inline: 10px;
     padding-bottom: 15px;
     hr {
@@ -27,7 +27,7 @@ const StyledDrop = styled.div`
 `;
 
 const StyledDrag = styled.div`
-    border-radius: 5px;
+    border-radius: 8px;
     flex-grow: 0.3;
 
     h2 {

@@ -1,12 +1,9 @@
 import { useState } from "react";
+import { useDrag } from "react-dnd";
 import styled from "styled-components";
 
 const StyledInput = styled.div`
-    button {
-        background-color: var(--bg-color-dark);
-    }
     padding: 8px;
-    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -19,6 +16,11 @@ interface TextInputButtonProps {
 }
 
 export function TextInputButton({ onConfirm, label }: TextInputButtonProps) {
+    const [domElementExists, setDomElementExists] = useState(true);
+    const [, drag] = useDrag({
+        type: "Title",
+        item: { type: "Title", domElementExists, setDomElementExists },
+    });
     const [value, setNewValue] = useState("");
 
     function handleConfirm() {
@@ -27,14 +29,16 @@ export function TextInputButton({ onConfirm, label }: TextInputButtonProps) {
     }
 
     return (
-        <StyledInput>
-            <input
-                type="text"
-                onChange={(e) => setNewValue(e.target.value)}
-                onKeyUp={(e) => e.key === "Enter" && handleConfirm()}
-                value={value}
-            />
-            <button onClick={handleConfirm}>{label}</button>
-        </StyledInput>
+        domElementExists && (
+            <StyledInput ref={drag}>
+                <input
+                    type="text"
+                    onChange={(e) => setNewValue(e.target.value)}
+                    onKeyUp={(e) => e.key === "Enter" && handleConfirm()}
+                    value={value}
+                />
+                <button onClick={handleConfirm}>{label}</button>
+            </StyledInput>
+        )
     );
 }
