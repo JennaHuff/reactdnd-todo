@@ -22,5 +22,15 @@ export function Prison({ prisonColor }: { prisonColor: ISquare["color"] }) {
         );
     }
 
-    return <div className="prison">{emprisonedPawns.map((pawn) => pawn)}</div>;
+    return (
+        <div
+            className={`prison ${
+                prison.pawns &&
+                gameState.turn === prison.color &&
+                "not-empty-prison-drag-shadow"
+            }`}
+        >
+            {emprisonedPawns.map((pawn) => pawn)}
+        </div>
+    );
 }

@@ -8,6 +8,10 @@
     padding-block: 4vh;
 }
 
+.not-empty-prison-drag-shadow {
+    filter: drop-shadow(0 0 8px black);
+}
+
 .header-button {
     width: 100px;
     height: 100px;
