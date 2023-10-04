@@ -11,10 +11,6 @@
 }
 
 .todo-page {
-    /* --bg-color-light: #99ccff;
-    --bg-color-dark: #7c53a5;
-    --paper-color: #ffff99;
-    --buttons-color: #ff9999; */
     --bg-color-light: #99ccff;
     --bg-color-dark: #004b96;
     --paper-color: #ffff99;
@@ -30,7 +26,6 @@
 
 input {
     background-color: transparent;
-    color: white;
     font-weight: bold;
     padding: 20px;
     border-radius: 8px;
