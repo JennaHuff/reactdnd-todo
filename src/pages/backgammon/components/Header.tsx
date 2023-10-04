@@ -6,6 +6,7 @@ export function Header() {
 
     return (
         <div className="header">
+            <h3>{gameState.errorMessage}</h3>
             <div className="game-info-header">
                 <h3 id="turn-indicator">{gameState.turn}'s turn, </h3>
                 <Dice />

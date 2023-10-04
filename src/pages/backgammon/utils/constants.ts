@@ -6,4 +6,5 @@ export const initialGameState: IGameState = {
     turn: "white",
     dice: { left: [], used: [] },
     playerAlreadyRolled: false,
+    errorMessage: "",
 };
